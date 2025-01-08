@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\assets\\scripts\\characters\\bosstiger\\bosstigermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|f:\\thanh\u0027sproject\\btl_game\\satthat_game2d\\assets\\scripts\\characters\\bosstiger\\bosstigermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\characters\\bosstiger\\bosstigermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|f:\\thanh\u0027sproject\\btl_game\\satthat_game2d\\assets\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|solutionrelative:assets\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\assets\\scripts\\utilities\\trigger\\triggerstartboss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\utilities\\trigger\\triggerstartboss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\assets\\scripts\\utilities\\camera\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\utilities\\camera\\camerafollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|f:\\thanh\u0027sproject\\btl_game\\satthat_game2d\\assets\\scripts\\utilities\\trigger\\triggerstartboss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\utilities\\trigger\\triggerstartboss.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB26761D-C196-E751-0489-64D557D92609}|Assembly-CSharp.csproj|F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\assets\\scripts\\characters\\player\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,8 +30,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BossController.cs",
+              "DocumentMoniker": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\BossController.cs",
+              "RelativeDocumentMoniker": "Assets\\BossController.cs",
+              "ToolTip": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\BossController.cs",
+              "RelativeToolTip": "Assets\\BossController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwC0AAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-07T17:35:29.748Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -36,14 +53,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Utilities\\Trigger\\TriggerStartBoss.cs",
               "ToolTip": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\Scripts\\Utilities\\Trigger\\TriggerStartBoss.cs",
               "RelativeToolTip": "Assets\\Scripts\\Utilities\\Trigger\\TriggerStartBoss.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-27T15:29:20.99Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "CameraFollow.cs",
               "DocumentMoniker": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\Scripts\\Utilities\\Camera\\CameraFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Utilities\\Camera\\CameraFollow.cs",
@@ -51,12 +68,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Utilities\\Camera\\CameraFollow.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAAADMAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T15:05:10.928Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-26T15:05:10.928Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\Scripts\\Characters\\Player\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\Player\\PlayerMovement.cs",
@@ -64,8 +80,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Characters\\Player\\PlayerMovement.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T14:14:50.742Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-26T14:14:50.742Z"
             },
             {
               "$type": "Document",
@@ -75,7 +90,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Characters\\BossTiger\\BossTigerMovement.cs",
               "ToolTip": "F:\\Thanh\u0027sProject\\BTL_Game\\SatThat_Game2D\\Assets\\Scripts\\Characters\\BossTiger\\BossTigerMovement.cs",
               "RelativeToolTip": "Assets\\Scripts\\Characters\\BossTiger\\BossTigerMovement.cs",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAmwAsAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwLkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T14:08:14.142Z",
               "EditorCaption": ""

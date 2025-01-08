@@ -6110,7 +6110,6 @@ MonoBehaviour:
   newOrthographicSize: 7.5
   newYPosition: 2.75
   transitionDuration: 1
-  bossTiger: {fileID: 0}
 --- !u!1 &712194831
 GameObject:
   m_ObjectHideFlags: 0
@@ -8143,7 +8142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c363b513bf9ea5f41b52227203323e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 372799147}
+  Player: {fileID: 0}
   BossTiger: {fileID: 1940202551}
   smoothSpeed: 0.125
   offset: {x: 0, y: 2, z: -10}
@@ -18576,19 +18575,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88334e7e682dcf34c9b624c71233772c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoint1: {fileID: 1052459561}
+  waypoint2: {fileID: 56970415}
+  player: {fileID: 372799147}
   patrolSpeed: 3
   chaseSpeed: 6
-  patrolRange: 5
-  detectionRange: 10
-  player: {fileID: 372799147}
-  animator: {fileID: 1940202549}
+  dashSpeed: 10
   attackRange: 3
-  activationPoint: {fileID: 705299620}
-  targetPosition: {fileID: 1648744758}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckDistance: 1
+  dashCooldown: 5
+  dodgeSpeed: 8
+  dodgeDistance: 5
+  deathDelay: 3
 --- !u!1 &1950355290
 GameObject:
   m_ObjectHideFlags: 0

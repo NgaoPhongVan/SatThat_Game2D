@@ -7,7 +7,7 @@ public class TriggerZone : MonoBehaviour
     [SerializeField] private float newOrthographicSize = 7.5f;
     [SerializeField] private float newYPosition = 2.75f;
     [SerializeField] private float transitionDuration = 1.0f;
-    [SerializeField] private BossTigerMovement bossTiger;
+    //[SerializeField] private BossTigerMovement bossTiger;
 
     private bool isTriggered = false;
 
