@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
+  m_Name: ToiLuyen
+  m_EditorClassIdentifier: 
+  lines:
+  - characterName: Cha
+    text: "Ng\u1ECDc nhi, con \u0111\xE3 r\xE8n xong ph\u1EA7n th\xF4 r\u1ED3i. Nh\u01B0ng
+      ch\u01B0a xong \u0111\xE2u."
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "Thanh ki\u1EBFm n\xE0y c\xF2n ph\u1EA3i t\xF4i luy\u1EC7n trong n\u01B0\u1EDBc
+      m\u1EDBi c\u1EE9ng c\xE1p, b\u1EC1n b\u1EC9 \u0111\u01B0\u1EE3c."
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "L\xE0m sao con bi\u1EBFt \u0111\u01B0\u1EE3c m\xECnh l\xE0m \u0111\xFAng
+      \u1EA1?"
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "Con h\xE3y l\u1EAFng nghe ti\u1EBFng ki\u1EBFm khi nh\xFAng xu\u1ED1ng
+      n\u01B0\u1EDBc. M\u1ED9t thanh ki\u1EBFm t\u1ED1t s\u1EBD vang l\xEAn nh\u01B0
+      ti\u1EBFng nh\u1EA1c n\xFAi r\u1EEBng."
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "T\u1EEB t\u1EEB th\xF4i con, nh\u1EB9 tay \u0111\u1EB7t ki\u1EBFm xu\u1ED1ng
+      n\u01B0\u1EDBc."
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "R\u1ED3i, gi\u1EDD th\xEC l\u1EAFng nghe xem ti\u1EBFng ki\u1EBFm th\u1EBF
+      n\xE0o, c\u1EA3m nh\u1EADn \u0111\u1ED9 rung c\u1EE7a n\xF3. \u0110\xF3 l\xE0
+      c\xE1ch th\u1EE3 r\xE8n nh\u1EADn bi\u1EBFt tay ngh\u1EC1 c\u1EE7a m\xECnh
+      \u0111\u1EA5y."
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "Cha \u01A1i, ti\u1EBFng ki\u1EBFm l\u1EA1 qu\xE1... H\xECnh nh\u01B0 con
+      l\xE0m ch\u01B0a \u0111\xFAng ph\u1EA3i kh\xF4ng \u1EA1?"
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "Cha \u01A1i, ti\u1EBFng ki\u1EBFm l\u1EA1 qu\xE1... H\xECnh nh\u01B0 con
+      l\xE0m ch\u01B0a \u0111\xFAng ph\u1EA3i kh\xF4ng \u1EA1?"
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "\u0110\u1EEBng v\u1ED9i, Ng\u1ECDc nhi. \u0110\xE2y l\xE0 b\u01B0\u1EDBc
+      c\u1EA7n s\u1EF1 tinh t\u1EBF. R\xE8n ki\u1EBFm kh\xF4ng ph\u1EA3i tr\xF4ng
+      ch\u1EDD v\xE0o may m\u1EAFn, m\xE0 ph\u1EA3i nh\u1EDD v\xE0o s\u1EF1 ki\xEAn
+      tr\xEC."
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "Cha \u01A1i, con l\xE0m \u0111\u01B0\u1EE3c r\u1ED3i! Ti\u1EBFng ki\u1EBFm
+      vang r\xF5 v\xE0 m\u1EA1nh m\u1EBD qu\xE1!"
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "Gi\u1ECFi l\u1EAFm, Ng\u1ECDc nhi! \u0110\xFAng nh\u01B0 cha mong \u0111\u1EE3i.
+      Nh\u01B0ng h\xE3y nh\u1EDB, \u0111\xE2y m\u1EDBi ch\u1EC9 l\xE0 kh\u1EDFi \u0111\u1EA7u
+      th\xF4i."
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "Ng\u1ECDc nhi, gi\u1EDD con \u0111\xE3 bi\u1EBFt nh\u1EEFng \u0111i\u1EC1u
+      c\u01A1 b\u1EA3n r\u1ED3i. Nh\u01B0ng ch\u1EB7ng \u0111\u01B0\u1EDDng ph\xEDa
+      tr\u01B0\u1EDBc c\xF2n d\xE0i v\xE0 gian nan l\u1EAFm."
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "Con s\u1EB5n s\xE0ng, th\u01B0a cha. Con s\u1EBD lu\xF4n h\u1ECDc h\u1ECFi
+      v\xE0 r\xE8n luy\u1EC7n."
+    characterSprite: {fileID: 0}
+  - characterName: Cha
+    text: "T\u1ED1t. H\xE3y gi\u1EEF g\xECn cu\u1ED1n S\u1ED5 tay gia truy\u1EC1n.
+      N\xF3 s\u1EBD ch\u1EC9 d\u1EABn con c\xE1ch t\xECm nh\u1EEFng lo\u1EA1i kim
+      lo\u1EA1i qu\xFD hi\u1EBFm."
+    characterSprite: {fileID: 0}
+  - characterName: "Ng\u1ECDc"
+    text: "Con s\u1EBD kh\xF4ng ph\u1EE5 l\xF2ng cha!"
+    characterSprite: {fileID: 0}
