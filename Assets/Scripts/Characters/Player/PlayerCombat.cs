@@ -13,12 +13,12 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("nhay");
-            // Nhận 20 sát thương
-            healthSystem.Heal(10f);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Debug.Log("nhay");
+        //    // Nhận 20 sát thương
+        //    healthSystem.Heal(10f);
+        //}
     }
     
 

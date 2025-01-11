@@ -13,8 +13,9 @@ public class Dialogues : MonoBehaviour
         if (!dialogueTriggered) // Chỉ gọi một lần
         {
             dialogueTriggered = true;
-            TriggerDialogue();
-            QuestSystem.QuestManager.Instance.StartQuest("forge_quest");
+            //TriggerDialogue();
+            StartCoroutine(DelayEndGame());
+            //QuestSystem.QuestManager.Instance.StartQuest("forge_quest");
         }
     }
     void TriggerDialogue()
@@ -36,5 +37,5 @@ public class Dialogues : MonoBehaviour
         dialogueManager.StartDialogue(dialogue); // Bắt đầu hội thoại
     }
 
-    //IEnumerator DelayEndGame() { yield return new WaitForSeconds(2f); TriggerDialogue(); }
+    IEnumerator DelayEndGame() { yield return new WaitForSeconds(2f); TriggerDialogue(); }
 }

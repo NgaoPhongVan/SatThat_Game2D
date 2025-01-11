@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float blockDamageReduction = 0.3f;
     private bool isBlocking = false;
     private bool shouldResumeBlock = false;
+    private bool isHealing = false;
 
     private SpriteRenderer spriteRenderer;
     private void Start()
@@ -57,6 +58,29 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (isDead) return;
+        if (isHit) return;
+        if (isHealing) return;
+        CheckGrounded();
+        HandleBlock();
+
+        // Chỉ xử lý movement và attack nếu không đang block
+        if (!isBlocking)
+        {
+            HandleMovement();
+            HandleAttack();
+        }
+        HandleJumpAnimation();
+        if (!isHealing)
+        {
+            HandleBlock();
+            HandleMovement();
+            HandleJumpAnimation();
+            HandleAttack();
+        }
+    }
 
     private void HandleHit()
     {
@@ -116,8 +140,6 @@ public class PlayerMovement : MonoBehaviour
         isInvulnerable = false;
     }
 
-
-
     private System.Collections.IEnumerator ResetHitState()
     {
         // Đợi animation hit kết thúc
@@ -131,6 +153,27 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleDeath();
         }
+    }
+
+    // Thêm hàm xử lý animation event
+    public void OnHealingStart()
+    {
+        isHealing = true;
+        rb.velocity = Vector2.zero;
+        Debug.Log("Healing Started");
+    }
+
+    public void OnHealingComplete()
+    {
+        isHealing = false;
+        animator.SetBool("isHealing", false);
+        Debug.Log("Healing Completed");
+    }
+
+    // Nếu animation bị gián đoạn hoặc không kết thúc đúng cách
+    private void OnDisable()
+    {
+        isHealing = false;
     }
 
     private void HandleDeath()
@@ -151,26 +194,10 @@ public class PlayerMovement : MonoBehaviour
         //}
     }
 
-    private void Update()
-    {
-        if (isDead) return;
-
-        CheckGrounded();
-        HandleBlock();
-        
-        // Chỉ xử lý movement và attack nếu không đang block
-        if (!isBlocking)
-        {
-            HandleMovement();
-            HandleAttack();
-        }
-        
-        HandleJumpAnimation();
-    }
-
+    // Sửa lại phương thức CanTakeDamage
     public bool CanTakeDamage()
     {
-        return !isInvulnerable && !isDead;
+        return !isInvulnerable && !isDead && !isHealing;
     }
 
     public float GetDamageReduction()
@@ -180,13 +207,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Chỉ cho phép di chuyển khi không đang tấn công và không đang block
-        if (!isAttacking && !isBlocking)
+        if (!isAttacking && !isBlocking && !isHealing)
         {
             horizontalInput = Input.GetAxisRaw("Horizontal");
             animator.SetBool("isRunning", Mathf.Abs(horizontalInput) > 0);
 
-            // Thay Space bằng W cho jump
             if (Input.GetKeyDown(KeyCode.W) && isGrounded)
             {
                 Jump();
@@ -237,7 +262,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("blockEnd");
     }
 
-
     private void HandleJumpAnimation()
     {
         verticalVelocity = rb.velocity.y;
@@ -264,7 +288,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isGrounded", false);
         }
     }
-
 
     private void HandleAttack()
     {
@@ -328,7 +351,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void Move()
     {
         Vector2 moveVelocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
@@ -356,7 +378,6 @@ public class PlayerMovement : MonoBehaviour
         facingRight = !facingRight;
         transform.Rotate(0f, 180f, 0f);
     }
-
 
     // Vẽ Gizmos để debug tầm đánh
     private void OnDrawGizmosSelected()

@@ -1734,7 +1734,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6832571480010709552}
   - component: {fileID: 5448982657835755986}
-  - component: {fileID: 3770000507331327644}
   m_Layer: 0
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -1772,19 +1771,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1227659785293612462}
   itemListText: {fileID: 8114919561436235388}
---- !u!114 &3770000507331327644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769498905401275016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09324192ccf36b44dbb86f90acd151c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items: []
 --- !u!1 &3839065107452513523
 GameObject:
   m_ObjectHideFlags: 0

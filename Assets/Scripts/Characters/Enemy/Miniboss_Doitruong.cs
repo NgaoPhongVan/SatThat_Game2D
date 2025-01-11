@@ -18,6 +18,23 @@ public class Miniboss_Doitruong : MonoBehaviour
     [SerializeField] private float detectionRange = 5f; // Tầm phát hiện
     [SerializeField] private LayerMask playerLayer; // Layer của player
 
+    [Header("Phase Change Settings")]
+    [SerializeField] private GameObject enemyPrefab; // Prefab của EnemyPatrol
+    [SerializeField] private Vector2[] spawnPoints; // Điểm spawn quân hỗ trợ
+    [SerializeField] private float phase2Threshold = 0.5f; // 50% HP
+    [SerializeField] private float phase3Threshold = 0.25f; // 25% HP
+    private bool phase2Triggered = false;
+    private bool phase3Triggered = false;
+
+    [Header("Enhanced Attack Settings")]
+    [SerializeField] private float attack1Damage = 15f;
+    [SerializeField] private float attackAirDamage = 20f;
+    [SerializeField] private float specialAttackCooldown = 3f;
+    private float lastSpecialAttackTime = 0f;
+
+    [Header("Scene Transition")]
+    [SerializeField] private string nextSceneName = "NextSceneName";
+    [SerializeField] private float sceneTransitionDelay = 2f;
     private Vector2 startPosition;
     private Vector2 patrolEndPosition;
     private bool movingRight = true;
@@ -83,8 +100,188 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
+    private void CheckPhaseTransition(float healthPercentage)
+    {
+        // Kiểm tra Phase 2 (50% HP)
+        if (!phase2Triggered && healthPercentage <= phase2Threshold)
+        {
+            Debug.Log("Entering Phase 2");
+            EnterPhase2();
+        }
+
+        // Kiểm tra Phase 3 (25% HP)
+        if (!phase3Triggered && healthPercentage <= phase3Threshold)
+        {
+            Debug.Log("Entering Phase 3");
+            EnterPhase3();
+        }
+    }
+
+    // Thêm hàm này để debug trong Inspector
+    public bool IsInPhase3()
+    {
+        return phase3Triggered;
+    }
+
+    private void EnterPhase2()
+    {
+        phase2Triggered = true;
+
+        // Spawn quân hỗ trợ
+        foreach (Vector2 spawnPoint in spawnPoints)
+        {
+            Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+        }
+
+        // Tăng sức mạnh cho boss
+        attackDamage *= 1.2f; // Tăng sát thương cơ bản
+        chaseSpeed *= 1.1f; // Tăng tốc độ đuổi theo
+    }
+
+    private void EnterPhase3()
+    {
+        phase3Triggered = true;
+        attackDamage *= 1.3f; // Tăng thêm sát thương
+    }
+
+    private System.Collections.IEnumerator PerformComboAttack()
+    {
+        isAttacking = true;
+        comboCount = 0;
+        rb.velocity = Vector2.zero;
+        animator.SetBool("isMoving", false);
+
+        while (comboCount < 3)
+        {
+            // Debug log để kiểm tra
+            Debug.Log($"Current HP Percentage: {healthSystem.GetHealthPercentage()}");
+            Debug.Log($"Phase 3 Triggered: {phase3Triggered}");
+            Debug.Log($"Time since last special: {Time.time - lastSpecialAttackTime}");
+
+            // Ưu tiên AttackAir trong Phase 3
+            if (phase3Triggered && Time.time >= lastSpecialAttackTime + specialAttackCooldown)
+            {
+                Debug.Log("Triggering Air Attack");
+                PerformAirAttack();
+                yield return new WaitForSeconds(attackRate * 2f);
+            }
+            // Sau đó mới đến Attack1 trong Phase 2
+            else if (phase2Triggered && Time.time >= lastSpecialAttackTime + specialAttackCooldown)
+            {
+                Debug.Log("Triggering Attack1");
+                PerformSpecialAttack1();
+                yield return new WaitForSeconds(attackRate * 1.5f);
+            }
+            else
+            {
+                animator.SetTrigger("attack");
+                DealDamage(attackDamage);
+                yield return new WaitForSeconds(attackRate);
+            }
+
+            comboCount++;
+            lastAttackTime = Time.time;
+        }
+
+        isAttacking = false;
+        UpdateFacingDirection(movingRight);
+        animator.SetBool("isMoving", true);
+    }
+
+    private void PerformSpecialAttack1()
+    {
+        animator.SetTrigger("attack1");
+        lastSpecialAttackTime = Time.time;
+        DealDamage(attack1Damage);
+    }
+
+    private void PerformAirAttack()
+    {
+        Debug.Log("Performing Air Attack");
+        animator.SetTrigger("attackAir");
+        lastSpecialAttackTime = Time.time;
+        StartCoroutine(AirAttackSequence());
+    }
+
+    private System.Collections.IEnumerator AirAttackSequence()
+    {
+        // Vô hiệu hóa gravity tạm thời
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0;
+
+        // Nhảy lên
+        Debug.Log("Air Attack - Jump Up");
+        rb.velocity = Vector2.up * 10f;
+        yield return new WaitForSeconds(0.5f);
+
+        // Tấn công
+        Debug.Log("Air Attack - Deal Damage");
+        DealDamage(attackAirDamage);
+
+        // Rơi xuống
+        Debug.Log("Air Attack - Fall Down");
+        rb.gravityScale = originalGravity;
+        rb.velocity = Vector2.down * 15f;
+
+        yield return new WaitForSeconds(0.5f);
+
+        // Reset velocity
+        rb.velocity = Vector2.zero;
+    }
+
+    public void OnAttack1DamageFrame()
+    {
+        // Gọi khi animation Attack1 đến frame gây damage
+        DealDamage(attack1Damage);
+    }
+
+    public void OnAttackAirStart()
+    {
+        Debug.Log("Animation Event: AttackAir Start");
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.up * 10f;
+    }
+
+    public void OnAttackAirDamage()
+    {
+        Debug.Log("Animation Event: AttackAir Damage");
+        DealDamage(attackAirDamage);
+    }
+
+    public void OnAttackAirEnd()
+    {
+        Debug.Log("Animation Event: AttackAir End");
+        rb.gravityScale = 1;
+        rb.velocity = Vector2.zero;
+    }
+
+    private void DealDamage(float damage)
+    {
+        Debug.Log($"Attempting to deal {damage} damage");
+        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(
+            transform.position + transform.right * 1f,
+            1.5f,
+            playerLayer
+        );
+
+        foreach (Collider2D hitPlayer in hitPlayers)
+        {
+            Debug.Log($"Hit player: {hitPlayer.name}");
+            PlayerMovement playerMovement = hitPlayer.GetComponent<PlayerMovement>();
+            HealthSystem playerHealth = hitPlayer.GetComponent<HealthSystem>();
+
+            if (playerHealth != null && playerMovement != null && playerMovement.CanTakeDamage())
+            {
+                playerHealth.TakeDamage(damage);
+                Debug.Log($"Dealt {damage} damage to player");
+            }
+        }
+    }
+
     private void CheckHealth(float healthPercentage)
     {
+        CheckPhaseTransition(healthPercentage);
+
         if (healthPercentage <= 0 && !isDead)
         {
             HandleDeath();
@@ -103,8 +300,8 @@ public class Miniboss_Doitruong : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
 
-        // Xóa enemy sau 1 giây
-        Destroy(gameObject, 1f);
+        // Load scene mới sau 2 giây
+        StartCoroutine(LoadNextSceneAfterDelay());
     }
 
     private void Patrol()
@@ -184,54 +381,6 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator PerformComboAttack()
-    {
-        isAttacking = true;
-        comboCount = 0;
-        rb.velocity = Vector2.zero;
-        animator.SetBool("isMoving", false);
-
-        while (comboCount < 3)
-        {
-            animator.SetTrigger("attack");
-
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(
-                transform.position + transform.right * 1f,
-                1f,
-                playerLayer
-            );
-
-            foreach (Collider2D hitPlayer in hitPlayers)
-            {
-                PlayerMovement playerMovement = hitPlayer.GetComponent<PlayerMovement>();
-                HealthSystem playerHealth = hitPlayer.GetComponent<HealthSystem>();
-
-                // Chỉ gây sát thương nếu player không trong trạng thái bất tử
-                if (playerHealth != null && playerMovement != null && playerMovement.CanTakeDamage())
-                {
-                    playerHealth.TakeDamage(attackDamage);
-                }
-            }
-
-            comboCount++;
-            lastAttackTime = Time.time;
-            yield return new WaitForSeconds(attackRate);
-        }
-
-        isAttacking = false;
-
-        if (isChasing)
-        {
-            Vector2 directionToPlayer = ((Vector2)player.position - (Vector2)transform.position).normalized;
-            UpdateFacingDirection(directionToPlayer.x > 0);
-        }
-        else
-        {
-            UpdateFacingDirection(movingRight);
-        }
-
-        animator.SetBool("isMoving", true);
-    }
 
     // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
@@ -243,12 +392,17 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
+    private System.Collections.IEnumerator LoadNextSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(sceneTransitionDelay);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+    }
+
+    // Cập nhật Update để kiểm tra sức khỏe
     private void Update()
     {
-        if (healthSystem.GetHealthPercentage() <= 0 || isHit) return;
-        if (healthSystem.GetHealthPercentage() <= 0) return;
+        if (isDead || isHit) return;
 
-        // Kiểm tra phát hiện player
         CheckPlayerDetection();
 
         if (!isAttacking)

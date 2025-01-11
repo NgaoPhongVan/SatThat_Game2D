@@ -17,23 +17,23 @@ MonoBehaviour:
     text: "Ng\u1ECDc, h\xF4m nay l\xE0 m\u1ED9t ng\xE0y \u0111\u1EB7c bi\u1EC7t.
       Ta s\u1EBD d\u1EA1y con v\u1EC1 ngh\u1EC1 r\xE8n m\xE0 gia \u0111\xECnh ta
       \u0111\xE3 gi\u1EEF g\xECn qua nhi\u1EC1u th\u1EBF h\u1EC7."
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: "Ng\u1ECDc"
     text: "Th\u1EADt \u1EA1? Con \u0111\xE3 ch\u1EDD ng\xE0y n\xE0y r\u1EA5t l\xE2u
       r\u1ED3i, th\u01B0a cha!"
-    characterSprite: {fileID: 1399596865, guid: 9d9ea8f44832039448274dabfa72e8d8, type: 3}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: Cha
     text: "Ph\u1EA3i. R\xE8n ki\u1EBFm kh\xF4ng ch\u1EC9 l\xE0 ngh\u1EC1 ki\u1EBFm
       c\u01A1m, m\xE0 c\xF2n l\xE0 c\xE1ch \u0111\u1EC3 b\u1EA3o v\u1EC7 gia \u0111\xECnh,
       b\u1EA3o v\u1EC7 x\xF3m l\xE0ng, non s\xF4ng.\""
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: "Ng\u1ECDc"
     text: "Cha, l\xE0ng ta thanh b\xECnh qu\xE1. Ki\u1EBFm n\xE0y r\xE8n ra, li\u1EC7u
       c\xF3 gi\u1EEF \u0111\u01B0\u1EE3c y\xEAn b\xECnh m\xE3i kh\xF4ng cha?"
-    characterSprite: {fileID: 1399596865, guid: 9d9ea8f44832039448274dabfa72e8d8, type: 3}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: Cha
     text: "\u01AF\u1EDBc nguy\u1EC7n c\u1EE7a cha l\xE0 v\u1EADy \u0111\xF3, Ng\u1ECDc
       nhi. Nh\u01B0ng tr\u01B0\u1EDBc h\u1EBFt, con ph\u1EA3i h\u1ECDc cho tinh 'Ng\u0169
       Kim Chi \u0110\u1EA1o'. \u0110\xE2y l\xE0 b\xED quy\u1EBFt c\u1EE7a t\u1ED5
       ti\xEAn ta truy\u1EC1n l\u1EA1i."
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}

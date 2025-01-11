@@ -23,7 +23,7 @@ namespace QuestSystem
         {
            "forge_quest",           // Nhiệm vụ rèn kiếm
            "water_forge_quest",     // Nhiệm vụ tôi luyện kiếm
-                                    // Thêm các nhiệm vụ khác theo thứ tự
+           "Clear_EnemyPatrol"                         // Thêm các nhiệm vụ khác theo thứ tự
         };
 
         private void Awake()
@@ -41,6 +41,8 @@ namespace QuestSystem
 
         private void InitializeQuests()
         {
+            Debug.Log("Initializing Quests");
+
             // Khởi tạo quest rèn kiếm
             Quest forgeQuest = new Quest(
                 "forge_quest",
@@ -49,17 +51,25 @@ namespace QuestSystem
             );
             forgeQuest.questType = QuestType.MainQuest;
             allQuests.Add(forgeQuest.questId, forgeQuest);
+            Debug.Log($"Added quest: {forgeQuest.questId}");
 
             // Khởi tạo quest tôi luyện kiếm
             Quest waterForgeQuest = new Quest(
                 "water_forge_quest",
-                "Toi luyen kiem trong nuoc",
+                "Tôi luyện kiếm trong nước",
                 "Hoàn thành mini-game tôi luyện kiếm trong nước."
             );
             waterForgeQuest.questType = QuestType.MainQuest;
             allQuests.Add(waterForgeQuest.questId, waterForgeQuest);
+            Debug.Log($"Added quest: {waterForgeQuest.questId}");
 
-            // Có thể thêm các quest khác ở đây
+            Quest ClearEnemyPatrol = new Quest(
+                "Clear_EnemyPatrol",
+                "Tiêu diệt toán lính của địch trong làng",
+                "Tìm và tiêu diệt kẻ địch trong làng."
+            );
+            ClearEnemyPatrol.questType = QuestType.MainQuest;
+            allQuests.Add(ClearEnemyPatrol.questId, ClearEnemyPatrol);
         }
 
         // Kiểm tra xem một nhiệm vụ có thể bắt đầu hay không
@@ -96,7 +106,12 @@ namespace QuestSystem
         // Hoàn thành một nhiệm vụ
         public void CompleteQuest(string questId)
         {
-            if (!allQuests.ContainsKey(questId)) return;
+            Debug.Log($"Attempting to complete quest: {questId}");
+            if (!allQuests.ContainsKey(questId))
+            {
+                Debug.LogError($"Quest {questId} not found in allQuests dictionary");
+                return;
+            }
 
             Quest quest = allQuests[questId];
             quest.state = QuestState.Completed;
@@ -105,17 +120,12 @@ namespace QuestSystem
             OnQuestCompleted?.Invoke(quest);
 
             Debug.Log($"Completed quest: {quest.questName}");
-            //SaveSystem.Instance.SaveGame(); // Tự động lưu khi hoàn thành nhiệm vụ
 
-            // Tự động bắt đầu nhiệm vụ tiếp theo nếu có
-            int nextIndex = System.Array.IndexOf(questSequence, questId) + 1;
-            if (nextIndex < questSequence.Length)
+            // Debug current quest state
+            Debug.Log("Current completed quests:");
+            foreach (var completedId in completedQuestIds)
             {
-                string nextQuestId = questSequence[nextIndex];
-                if (CanStartQuest(nextQuestId))
-                {
-                    StartQuest(nextQuestId);
-                }
+                Debug.Log($"- {completedId}");
             }
         }
 
@@ -188,6 +198,24 @@ namespace QuestSystem
                 return quest.state;
             }
             return QuestState.NotStarted;
+        }
+
+        public void ResetAllQuests()
+        {
+            completedQuestIds.Clear();
+            activeQuests.Clear();
+
+            // Reset all quests to NotStarted state
+            foreach (var quest in allQuests.Values)
+            {
+                quest.state = QuestState.NotStarted;
+            }
+
+            // Start the first quest if available
+            if (questSequence.Length > 0)
+            {
+                StartQuest(questSequence[0]);
+            }
         }
     }
 }

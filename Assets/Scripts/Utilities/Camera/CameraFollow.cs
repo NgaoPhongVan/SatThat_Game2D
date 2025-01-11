@@ -7,7 +7,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Vector3 offset = new Vector3(0f, 2f, -10f);
 
     [Header("Position Constraints")]
-    [SerializeField] private float minX = 0f; // Giới hạn tối thiểu trục X
+    [SerializeField] private float minX = 0f;  // Giới hạn tối thiểu trục X
+    [SerializeField] private float maxX = 160f; // Giới hạn tối đa trục X
 
     private void LateUpdate()
     {
@@ -21,7 +22,7 @@ public class CameraFollow : MonoBehaviour
         Vector3 desiredPosition = target.position + offset;
 
         // Áp dụng giới hạn cho trục X
-        desiredPosition.x = Mathf.Max(minX, desiredPosition.x);
+        desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
 
         // Di chuyển mượt đến vị trí đích
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);

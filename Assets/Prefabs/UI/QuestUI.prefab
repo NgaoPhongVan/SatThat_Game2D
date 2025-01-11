@@ -1045,7 +1045,6 @@ GameObject:
   - component: {fileID: 4701613709420586188}
   - component: {fileID: 7937102791847246449}
   - component: {fileID: 9201794557724976347}
-  - component: {fileID: 8731610679882909568}
   m_Layer: 5
   m_Name: QuestUI
   m_TagString: Untagged
@@ -1137,18 +1136,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8731610679882909568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2644076865645608436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2740527aae232a41b6e029f52733e13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2667728437650644354
 GameObject:
   m_ObjectHideFlags: 0
@@ -3900,7 +3887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -783, y: 391}
+  m_AnchoredPosition: {x: -833, y: 391}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2590133013616335503
