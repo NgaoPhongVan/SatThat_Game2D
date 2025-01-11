@@ -15,7 +15,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("nhay");
+            //Debug.Log("nhay");
             // Nhận 20 sát thương
             healthSystem.Heal(10f);
         }

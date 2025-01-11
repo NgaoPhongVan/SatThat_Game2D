@@ -268,7 +268,7 @@ public class EnemyPatrol : MonoBehaviour
 
         // Debug để kiểm tra khoảng cách
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Debug.Log($"Distance to player: {distanceToPlayer}");
+        //Debug.Log($"Distance to player: {distanceToPlayer}");
 
         // Kiểm tra player trong tầm phát hiện bằng cả Raycast và khoảng cách
         RaycastHit2D hit = Physics2D.Raycast(

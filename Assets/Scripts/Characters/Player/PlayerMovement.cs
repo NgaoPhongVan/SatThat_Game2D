@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isBlocking = false;
     private bool shouldResumeBlock = false;
 
+    private ManaSystem manaSystem;
+
     private SpriteRenderer spriteRenderer;
     private void Start()
     {
@@ -54,6 +56,13 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnHealthChanged.AddListener(CheckHealth);
             healthSystem.OnDeath.AddListener(HandleDeath);
             healthSystem.OnHit.AddListener(HandleHit);
+        }
+
+        manaSystem = GetComponent<ManaSystem>();
+        //Dk event cho mana
+        if(manaSystem != null)
+        {
+            //manaSystem.OnManaChanged(CheckMana);
         }
     }
 
@@ -376,5 +385,15 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnDeath.RemoveListener(HandleDeath);
             healthSystem.OnHit.RemoveListener(HandleHit);
         }
+
+        //if(manaSystem != null)
+        //{
+        //    manaSystem.OnManaChanged.RemoveListener(CheckMana);
+        //}
     }
+
+
+    // Xu ly su dung mana
+    
+
 }
