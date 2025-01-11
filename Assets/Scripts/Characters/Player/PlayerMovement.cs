@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Attack Settings")]
     [SerializeField] private float attackDamage = 20f;
+    [SerializeField] private float heavyAttackDamge = 30f;
     [SerializeField] private float attackRate = 0.5f; // Thời gian giữa các đòn đánh
     [SerializeField] private float attackRange = 1f; // Tầm đánh
     [SerializeField] private Transform attackPoint; // Điểm xuất phát đòn đánh
@@ -41,6 +43,11 @@ public class PlayerMovement : MonoBehaviour
     private bool shouldResumeBlock = false;
 
     private ManaSystem manaSystem;
+    private bool outOfMana = false;
+    private bool isBuff = false;
+    private float currentMana;
+    private Coroutine buffCoroutine;
+
 
     private SpriteRenderer spriteRenderer;
     private void Start()
@@ -62,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
         //Dk event cho mana
         if(manaSystem != null)
         {
-            //manaSystem.OnManaChanged(CheckMana);
+            manaSystem.OnManaChanged.AddListener(CheckMana);
+            manaSystem.OutOfMana.AddListener(OutOfMana);
         }
     }
 
@@ -164,6 +172,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDead) return;
 
+        currentMana = manaSystem.getCurrentMana();
+
         CheckGrounded();
         HandleBlock();
         
@@ -172,6 +182,8 @@ public class PlayerMovement : MonoBehaviour
         {
             HandleMovement();
             HandleAttack();
+            HandleHeavyAttack();
+            HandleUseBuff();
         }
         
         HandleJumpAnimation();
@@ -283,6 +295,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleHeavyAttack()
+    {
+        if (Input.GetMouseButtonDown(1) && Time.time >= lastAttackTime + attackRate && !isAttacking && isBuff)
+        {
+            HeavyAttack();
+        }
+    }
+
     private void Attack()
     {
         isAttacking = true;
@@ -307,7 +327,50 @@ public class PlayerMovement : MonoBehaviour
             if (enemyHealth != null)
             {
                 // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
-                enemyHealth.TakeDamage(attackDamage);
+                if (isBuff)
+                {
+                    enemyHealth.TakeDamage(attackDamage+5f);
+                }
+                else
+                {
+                    enemyHealth.TakeDamage(attackDamage);
+                }
+            }
+        }
+
+        // Sử dụng Animation Event thay vì Coroutine
+        // Animation Event sẽ gọi OnAttackComplete khi animation kết thúc
+    }
+    private void HeavyAttack()
+    {
+        isAttacking = true;
+        lastAttackTime = Time.time;
+        animator.SetTrigger("heavyAttack");
+
+
+
+
+        // Đảm bảo không di chuyển khi đang tấn công
+        rb.velocity = Vector2.zero;
+
+        // Phát hiện và gây sát thương cho enemy
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
+            attackPoint.position,
+            attackRange,
+            enemyLayer
+        );
+
+        // Debug.Log($"Detected {hitEnemies.Length} enemies in range"); // Debug line
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            HealthSystem enemyHealth = enemy.GetComponent<HealthSystem>();
+            if (enemyHealth != null)
+            {
+                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
+                
+                enemyHealth.TakeDamage(heavyAttackDamge);
+                
             }
         }
 
@@ -386,14 +449,67 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnHit.RemoveListener(HandleHit);
         }
 
-        //if(manaSystem != null)
-        //{
-        //    manaSystem.OnManaChanged.RemoveListener(CheckMana);
-        //}
+        if (manaSystem != null)
+        {
+            manaSystem.OnManaChanged.RemoveListener(CheckMana);
+        }
     }
 
 
     // Xu ly su dung mana
-    
+
+    private void CheckMana(float manaPercentage)
+    {
+        if (manaPercentage <= 0 )
+        {
+            OutOfMana();
+        }
+    }
+
+    private void OutOfMana()
+    {
+        if (isDead) return;
+
+        outOfMana = true;
+    }
+
+    private void HandleUseBuff()
+    {
+        if (!isBuff && currentMana >= 20f )
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UseBuff();
+            }
+            
+        }
+    }
+
+    private void UseBuff()
+    {
+        if (isDead || isBuff) return; // Kiểm tra nếu nhân vật đã chết hoặc đang buff
+
+        //Input.GetKeyDown(KeyCode.E);
+
+        isBuff = true;
+        animator.SetBool("isBuff", true);
+        manaSystem.UseBuff(20f);
+
+        if (buffCoroutine != null)
+        {
+            StopCoroutine(buffCoroutine); // Dừng bất kỳ buff nào đang chạy trước đó
+        }
+
+        buffCoroutine = StartCoroutine(DisableBuffAfterDuration(3f)); // Chạy buff trong 3 giây
+    }
+
+    private IEnumerator DisableBuffAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration); // Chờ 3 giây
+
+        isBuff = false;
+        animator.SetBool("isBuff", false);
+        buffCoroutine = null; // Reset lại Coroutine để có thể kích hoạt buff lại
+    }
 
 }

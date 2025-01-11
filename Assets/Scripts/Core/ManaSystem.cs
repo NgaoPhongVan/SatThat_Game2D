@@ -8,6 +8,7 @@ public class ManaSystem : MonoBehaviour
     private float currentMana;
 
     public UnityEvent<float> OnManaChanged;
+    public UnityEvent OutOfMana;
 
     private Coroutine manaRecoveryCoroutine;
 
@@ -16,6 +17,8 @@ public class ManaSystem : MonoBehaviour
         currentMana = maxMana;
         OnManaChanged?.Invoke(GetManaPercentage());
     }
+    
+    public float getCurrentMana() {  return currentMana; }
 
     public void UseBuff(float manaUsed)
     {
@@ -31,25 +34,28 @@ public class ManaSystem : MonoBehaviour
         currentMana = Mathf.Max(0, currentMana - finalMana);
         OnManaChanged?.Invoke(GetManaPercentage());
 
-        // Kích hoạt event hit
-        
-
         if (currentMana <= 0)
         {
-            //OnDeath?.Invoke();
+            OutOfMana?.Invoke(); // Kích hoạt sự kiện hết mana
         }
-    }
 
-    public void Manarecovery()
-    {
-        currentMana = Mathf.Min(maxMana, currentMana + 3);
-        OnManaChanged?.Invoke(GetManaPercentage());
+        // Kiểm tra và khởi động hồi phục mana nếu cần
+        if (manaRecoveryCoroutine == null)
+        {
+            StartManaRecovery();
+        }
     }
 
     public void ManaBonus(float manaBonus)
     {
         currentMana = Mathf.Min(maxMana, currentMana + manaBonus);
         OnManaChanged?.Invoke(GetManaPercentage());
+
+        // Kiểm tra nếu đầy mana thì dừng hồi phục
+        if (currentMana >= maxMana && manaRecoveryCoroutine != null)
+        {
+            StopManaRecovery();
+        }
     }
 
     public float GetManaPercentage()
@@ -57,7 +63,7 @@ public class ManaSystem : MonoBehaviour
         return currentMana / maxMana;
     }
 
-    public void StartManaRecovery()
+    private void StartManaRecovery()
     {
         if (manaRecoveryCoroutine == null) // Đảm bảo không chạy trùng Coroutine
         {
@@ -65,7 +71,7 @@ public class ManaSystem : MonoBehaviour
         }
     }
 
-    public void StopManaRecovery()
+    private void StopManaRecovery()
     {
         if (manaRecoveryCoroutine != null)
         {
@@ -78,11 +84,11 @@ public class ManaSystem : MonoBehaviour
     {
         while (currentMana < maxMana) // Chỉ hồi mana nếu chưa đầy
         {
-            currentMana = Mathf.Min(maxMana, currentMana + 2); // Hồi 2 mana mỗi giây
+            currentMana = Mathf.Min(maxMana, currentMana + 0.5f); // Hồi 2 mana mỗi giây
             OnManaChanged?.Invoke(GetManaPercentage()); // Cập nhật event
             yield return new WaitForSeconds(1f); // Đợi 1 giây trước khi hồi tiếp
         }
 
-        manaRecoveryCoroutine = null; // Kết thúc Coroutine khi mana đầy
+        StopManaRecovery(); // Kết thúc Coroutine khi mana đầy
     }
 }

@@ -759,6 +759,7 @@ MonoBehaviour:
   groundCheckRadius: 0.5
   groundCheck: {fileID: 1682052446061308271}
   attackDamage: 20
+  heavyAttackDamge: 30
   attackRate: 0.5
   attackRange: 1
   attackPoint: {fileID: 8957455306148112982}
@@ -1122,13 +1123,38 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 787440150827395022, guid: c5e867a90ded90348ab5e606233f912d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 75212068290765963}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2211939602666530137, guid: c5e867a90ded90348ab5e606233f912d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 994789026376004358}
   m_SourcePrefab: {fileID: 100100000, guid: c5e867a90ded90348ab5e606233f912d, type: 3}
 --- !u!4 &2358457282294827890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 787440150827395022, guid: c5e867a90ded90348ab5e606233f912d, type: 3}
   m_PrefabInstance: {fileID: 3051013659828399292}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3811456625494002149 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2211939602666530137, guid: c5e867a90ded90348ab5e606233f912d, type: 3}
+  m_PrefabInstance: {fileID: 3051013659828399292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &994789026376004358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3811456625494002149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec223fb77521f748ba6513b0bfa6b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundImage: {fileID: 6704108363268878684}
+  fillImage: {fileID: 4954351890879167720}
+  manaSystem: {fileID: 0}
+  updateSpeed: 5
+  useSmoothing: 1
 --- !u!1001 &4529550281831322007
 PrefabInstance:
   m_ObjectHideFlags: 0
