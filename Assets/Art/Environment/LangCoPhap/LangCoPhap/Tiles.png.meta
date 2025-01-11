@@ -782,7 +782,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_32
+      name: HealthItem
       rect:
         serializedVersion: 2
         x: 242
@@ -874,7 +874,7 @@ TextureImporter:
         width: 27
         height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -897,6 +897,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      HealthItem: -1680562517
       Tiles_0: -2115606676
       Tiles_1: 838088175
       Tiles_10: 1984541696
@@ -923,7 +924,6 @@ TextureImporter:
       Tiles_3: -253479321
       Tiles_30: -57570930
       Tiles_31: -1135527897
-      Tiles_32: -1680562517
       Tiles_33: 669648109
       Tiles_34: 670143603
       Tiles_35: 1087683742

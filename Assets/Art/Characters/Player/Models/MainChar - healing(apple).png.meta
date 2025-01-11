@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,259 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88c7d95c5e68b5c4aa7b4f5162f0a21e
+      internalID: -2125363967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_1
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12ada0c20eba64f48b7041723bc31ef3
+      internalID: 1078721838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_2
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9834f42c5dcd69a438bd42002148a4ba
+      internalID: -1819164459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_3
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0eab18eca1351cb4d879daa6e2ba4283
+      internalID: -745486563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_4
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7793e290a615f640a63b17721d0cd01
+      internalID: 1407200133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_5
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5863fb585a4577a469832d089a9fb553
+      internalID: -1097102925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_6
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6306cdf60010b1488e3724bd21e32a7
+      internalID: -1492695871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_7
+      rect:
+        serializedVersion: 2
+        x: 1344
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4af22bf43e72794b8f475766566fa02
+      internalID: 224745163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_8
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d1764bda7357484faec515d6edb7381
+      internalID: -1615342872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_9
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b76c39ffbd974be4d9dec0dc285ab102
+      internalID: -2090195721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_10
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20939502217005f409d4f069a521f1d4
+      internalID: -726374206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainChar - healing(apple)_11
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 0
+        width: 192
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b07c750b4d0a9ee49ab71fa68ac13dc9
+      internalID: -1374237930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +371,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      MainChar - healing(apple)_0: -2125363967
+      MainChar - healing(apple)_1: 1078721838
+      MainChar - healing(apple)_10: -726374206
+      MainChar - healing(apple)_11: -1374237930
+      MainChar - healing(apple)_2: -1819164459
+      MainChar - healing(apple)_3: -745486563
+      MainChar - healing(apple)_4: 1407200133
+      MainChar - healing(apple)_5: -1097102925
+      MainChar - healing(apple)_6: -1492695871
+      MainChar - healing(apple)_7: 224745163
+      MainChar - healing(apple)_8: -1615342872
+      MainChar - healing(apple)_9: -2090195721
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

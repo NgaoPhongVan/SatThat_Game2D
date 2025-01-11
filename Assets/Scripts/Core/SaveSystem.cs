@@ -1,5 +1,5 @@
-﻿// SaveSystem.cs
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -26,7 +26,9 @@ public class SaveSystem : MonoBehaviour
         GameSaveData saveData = new GameSaveData
         {
             completedQuests = QuestSystem.QuestManager.Instance.GetCompletedQuestIds(),
-            inventoryItems = InventoryManager.Instance.items
+            inventoryItems = InventoryManager.Instance.items,
+            itemCounts = InventoryManager.Instance.itemCounts,
+            currentSceneName = SceneManager.GetActiveScene().name
         };
 
         BinaryFormatter formatter = new BinaryFormatter();
@@ -46,14 +48,28 @@ public class SaveSystem : MonoBehaviour
             {
                 GameSaveData saveData = formatter.Deserialize(stream) as GameSaveData;
 
-                // Khôi phục dữ liệu
+                // Khôi phục dữ liệu quest
                 QuestSystem.QuestManager.Instance.LoadQuestProgress(saveData.completedQuests);
-                foreach (string item in saveData.inventoryItems)
+
+                // Khôi phục inventory
+                InventoryManager.Instance.LoadInventoryData(saveData.inventoryItems, saveData.itemCounts);
+
+                // Load scene đã lưu
+                if (!string.IsNullOrEmpty(saveData.currentSceneName))
                 {
-                    InventoryManager.Instance.AddItem(item);
+                    SceneManager.LoadScene(saveData.currentSceneName);
                 }
             }
             Debug.Log("Game Loaded!");
         }
+        else
+        {
+            Debug.LogWarning("No save file found!");
+        }
+    }
+
+    public bool HasSaveFile()
+    {
+        return File.Exists(savePath);
     }
 }

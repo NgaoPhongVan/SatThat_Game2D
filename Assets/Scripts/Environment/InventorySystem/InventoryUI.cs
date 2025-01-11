@@ -1,24 +1,101 @@
 ﻿using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private TMP_Text itemListText;
+    private PlayerMovement player;
+    private HealthSystem playerHealth;
+    private Animator playerAnimator;
+    private bool isHealing = false;
 
     private void Start()
     {
-        inventoryPanel.SetActive(false); // Ẩn panel lúc đầu
+        inventoryPanel.SetActive(false);
         InventoryManager.Instance.OnInventoryChanged += UpdateItemList;
+
+        // Lấy reference đến Player và components
+        player = FindObjectOfType<PlayerMovement>();
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<HealthSystem>();
+            playerAnimator = player.GetComponent<Animator>();
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log("Phím I đã được nhấn");
             ToggleInventory();
         }
+
+        // Kiểm tra có thể hồi máu không
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !isHealing)
+        {
+            TryUseHealthPotion();
+        }
+    }
+
+    private void TryUseHealthPotion()
+    {
+        // Kiểm tra có vật phẩm không
+        if (InventoryManager.Instance.GetHealthPotionCount() <= 0)
+        {
+            PickupTextManager.Instance.ShowPickupText("Bạn không còn vật phẩm hồi máu");
+            return;
+        }
+
+        // Bắt đầu hồi máu
+        StartCoroutine(HealingSequence());
+    }
+
+    private IEnumerator HealingSequence()
+    {
+        if (playerAnimator != null && playerHealth != null)
+        {
+            // Kích hoạt animation healing
+            playerAnimator.SetTrigger("healing");
+
+            // Đợi animation hoàn thành (điều chỉnh thời gian phù hợp với độ dài animation)
+            float healingDuration = 0.55f; // Độ dài của animation healing
+            yield return new WaitForSeconds(healingDuration);
+
+            // Hồi máu và trừ vật phẩm
+            if (InventoryManager.Instance.UseHealthPotion())
+            {
+                float maxHealth = 100f;
+                float healAmount = maxHealth * 0.2f;
+                playerHealth.Heal(healAmount);
+            }
+
+            // Đảm bảo isHealing được reset
+            if (player != null)
+            {
+                player.OnHealingComplete();
+            }
+        }
+    }
+
+
+    private void UpdateItemList()
+    {
+        string itemList = "";
+        foreach (string item in InventoryManager.Instance.items)
+        {
+            if (item == "Vật phẩm hồi máu")
+            {
+                int count = InventoryManager.Instance.GetHealthPotionCount();
+                itemList += $"* {item} (+{count})\n";
+            }
+            else
+            {
+                itemList += $"* {item}\n";
+            }
+        }
+        itemListText.text = itemList;
     }
 
     private void ToggleInventory()
@@ -26,20 +103,10 @@ public class InventoryUI : MonoBehaviour
         bool isActive = inventoryPanel.activeSelf;
         inventoryPanel.SetActive(!isActive);
 
-        if (!isActive) // Nếu vừa mở inventory
+        if (!isActive)
         {
             UpdateItemList();
         }
-    }
-
-    private void UpdateItemList()
-    {
-        string itemList = "";
-        foreach (string item in InventoryManager.Instance.items)
-        {
-            itemList += $"* {item}\n";
-        }
-        itemListText.text = itemList;
     }
 
     private void OnDestroy()

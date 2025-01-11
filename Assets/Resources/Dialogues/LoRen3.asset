@@ -15,18 +15,18 @@ MonoBehaviour:
   lines:
   - characterName: "Ng\u1ECDc"
     text: "Cha \u01A1i, con xong r\u1ED3i! C\xF3 \u0111\u01B0\u1EE3c kh\xF4ng cha?"
-    characterSprite: {fileID: 1399596865, guid: 9d9ea8f44832039448274dabfa72e8d8, type: 3}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: Cha
     text: "T\u1ED1t l\u1EAFm, Ng\u1ECDc! Thanh ki\u1EBFm \u0111\u1EA7u tay c\u1EE7a
       con \u0111\u1EA5y, c\u0169ng ra d\xE1ng r\u1ED3i."
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: Cha
     text: "C\u1EA7m l\u1EA5y cu\u1ED1n s\u1ED5 gia truy\u1EC1n n\xE0y. Trong n\xE0y
       ghi ch\xE9p b\xED quy\u1EBFt Ng\u0169 Kim Chi \u0110\u1EA1o v\xE0 hai lo\u1EA1i
       kim kh\xED \u0111\u1EA7u ti\xEAn: Kim Linh S\u01A1n v\xE0 Th\u1EA7n Th\u1EE7y
       Tinh."
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: "Ng\u1ECDc"
     text: "Con s\u1EBD gi\u1EEF g\xECn n\xF3, th\u01B0a cha. Con s\u1EBD kh\xF4ng
       l\xE0m cha th\u1EA5t v\u1ECDng!"
-    characterSprite: {fileID: 21300000, guid: 373477b3d27da5b4d958a89cd7ec9ab4, type: 3}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}

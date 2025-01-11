@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using QuestSystem;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WaterForge : MonoBehaviour
@@ -21,12 +22,13 @@ public class WaterForge : MonoBehaviour
             {
                 dialogueTriggered = true;
                 TriggerDialogue();
+                dialogueManager.OnDialogueEnd += OnDialogueComplete;
             }
         }
         else
         {
+            PickupTextManager.Instance.ShowPickupText("Bạn cần hoàn thành nhiệm vụ rèn kiếm trước!");
             Debug.Log("Bạn cần hoàn thành nhiệm vụ rèn kiếm trước!");
-            // Có thể hiển thị thông báo cho người chơi
         }
     }
 
@@ -56,6 +58,7 @@ public class WaterForge : MonoBehaviour
 
         // Hoàn thành nhiệm vụ
         QuestSystem.QuestManager.Instance.CompleteQuest("water_forge_quest");
+        QuestSystem.QuestManager.Instance.StartQuest("Clear_EnemyPatrol");
 
         // Chờ một chút trước khi chuyển scene
         StartCoroutine(DelayedSceneTransition());
@@ -69,14 +72,7 @@ public class WaterForge : MonoBehaviour
 
     private void LoadNextScene()
     {
-        if (!string.IsNullOrEmpty(nextSceneName))
-        {
-            SceneManager.LoadScene("Scene1_LangCoPhap");
-        }
-        else
-        {
-            Debug.LogWarning("Next scene name is not set!");
-        }
+        SceneManager.LoadScene("Scene1_LangCoPhap");
     }
 
     private void OnDestroy()

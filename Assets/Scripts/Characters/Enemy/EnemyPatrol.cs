@@ -16,6 +16,10 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float detectionRange = 5f; // Tầm phát hiện
     [SerializeField] private LayerMask playerLayer; // Layer của player
 
+    [Header("Drop Settings")]
+    [SerializeField] private GameObject healthItemPrefab;
+    [SerializeField] private float dropChance = 0.5f;
+
     private Vector2 startPosition;
     private Vector2 patrolEndPosition;
     private bool movingRight = true;
@@ -101,8 +105,20 @@ public class EnemyPatrol : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
 
-        // Xóa enemy sau 1 giây
+        // Thử thả vật phẩm
+        TryDropHealthItem();
+
+        // Xóa enemy
         Destroy(gameObject, 1f);
+    }
+
+    private void TryDropHealthItem()
+    {
+        if (healthItemPrefab != null && Random.value < dropChance)
+        {
+            Vector3 dropPosition = transform.position;
+            Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
+        }
     }
 
     private void Patrol()

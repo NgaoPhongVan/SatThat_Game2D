@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Chapter_1_TroTanCoPhap/Scene1_LoRen.unity
+    guid: 26f79c2665881b7408ed529edd6cf8a0
+  - enabled: 1
+    path: Assets/Scenes/Chapter_1_TroTanCoPhap/Scene1_LangCoPhap.unity
+    guid: b4bc7afbf57cad34bb9a54f23c1b2005
+  - enabled: 1
+    path: Assets/Scenes/Chapter_1_TroTanCoPhap/Scene2_LangTanCong.unity
+    guid: 0b9008266d3b3e44d8d3d8b0fd11b5ec
+  - enabled: 1
+    path: Assets/Scenes/PauseMenu.unity
+    guid: 9491c08b0e5c4d2478616091f1756c60
   m_configObjects: {}

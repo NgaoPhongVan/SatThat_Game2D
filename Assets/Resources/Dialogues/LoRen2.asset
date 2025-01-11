@@ -17,27 +17,27 @@ MonoBehaviour:
     text: "Ng\u1ECDc, \u0111\u1EA7u ti\xEAn ph\u1EA3i bi\u1EBFt xem l\u1EEDa l\xF2.
       Ph\u1EA3i gi\u1EEF l\u1EEDa \u0111\u1EC1u tay th\xEC ki\u1EBFm m\u1EDBi th\xE0nh
       kh\xED."
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: "Ng\u1ECDc"
     text: "Con hi\u1EC3u r\u1ED3i, th\u01B0a cha. Nh\u01B0ng l\xE0m sao \u0111\u1EC3
       bi\u1EBFt nhi\u1EC7t \u0111\u1ED9 \u0111\xE3 \u0111\u1EE7?"
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: Cha
     text: "H\xE3y quan s\xE1t m\xE0u s\u1EAFc c\u1EE7a l\xF2. Khi \xE1nh l\u1EEDa
       chuy\u1EC3n sang m\xE0u v\xE0ng r\u1EF1c, \u0111\xF3 l\xE0 l\xFAc th\xEDch
       h\u1EE3p nh\u1EA5t."
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: Cha
     text: "Sau khi nung kim lo\u1EA1i, con c\u1EA7n \u0111\u1EADp \u0111\xFAng nh\u1ECBp
       \u0111\u1EC3 t\u1EA1o h\xECnh. B\u01B0\u1EDBc n\xE0y l\xE0 c\u1ED1t l\xF5i
       \u0111\u1EA5y."
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}
   - characterName: "Ng\u1ECDc"
     text: "Con s\u1EBD c\u1ED1 g\u1EAFng th\u1EADt ch\xEDnh x\xE1c. C\xF2n b\u01B0\u1EDBc
       cu\u1ED1i c\xF9ng th\xEC sao, cha?"
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: Cha
     text: "T\u1EA1o h\xECnh xong th\xEC \u0111em t\xF4i n\u01B0\u1EDBc. \u0110\u1EEBng
       n\xF3ng v\u1ED9i, ph\u1EA3i \u0111\u1EC3 ngu\u1ED9i t\u1EEB t\u1EEB th\xEC
       ki\u1EBFm m\u1EDBi b\u1EC1n."
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 1a85c3dc7e6c7e2469a358bf144d1224, type: 3}

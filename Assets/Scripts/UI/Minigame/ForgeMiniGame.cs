@@ -117,18 +117,54 @@ public class ForgeMiniGame : MonoBehaviour
 
     private void EndGame()
     {
-        miniGameUI.SetActive(false);
-        isForeverCompleted = true;
+        Debug.Log("EndGame called");
 
-        // Thêm phần thưởng
+        // Thêm phần thưởng trước
         InventoryManager.Instance.AddItem("Sổ tay gia truyền");
         InventoryManager.Instance.AddItem("Kim Linh Sơn");
         InventoryManager.Instance.AddItem("Âm Dương Bản");
 
-        // Cập nhật quest
-        QuestSystem.QuestManager.Instance.CompleteQuest("forge_quest");
+        PickupTextManager.Instance.ShowPickupText("Bạn đã vừa có vật phẩm mới (Nhấn I để mở)");
+
+        // Cập nhật quest trước khi tắt UI
+        var questManager = QuestSystem.QuestManager.Instance;
+        if (questManager != null)
+        {
+            questManager.CompleteQuest("forge_quest");
+            questManager.StartQuest("water_forge_quest");
+        }
+        else
+        {
+            Debug.LogError("QuestManager is null!");
+        }
+
+        // Trigger dialogue và tắt UI sau cùng
+        StartCoroutine(DelayDialog());
         TriggerDialogue("LoRen3");
-        //QuestSystem.QuestManager.Instance.StartQuest("water_forge_quest");
+        miniGameUI.SetActive(false);
+        isForeverCompleted = true;
+    }
+
+    private void TriggerDialogue(string dialogueId)
+    {
+        // Tìm DialogueManager trong scene
+        var dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager != null)
+        {
+            Dialogue dialogue = Resources.Load<Dialogue>("Dialogues/" + dialogueId);
+            if (dialogue != null)
+            {
+                dialogueManager.StartDialogue(dialogue);
+            }
+            else
+            {
+                Debug.LogError($"Dialogue {dialogueId} not found!");
+            }
+        }
+        else
+        {
+            Debug.LogError("DialogueManager not found in scene!");
+        }
     }
 
     private void CheckTiming()
@@ -166,15 +202,8 @@ public class ForgeMiniGame : MonoBehaviour
         yield return new WaitForSeconds(2f);
         EndGame();
     }
-
-    private void TriggerDialogue(string dialogueName)
+    private IEnumerator DelayDialog()
     {
-        Dialogue dialogue = Resources.Load<Dialogue>($"Dialogues/{dialogueName}");
-        if (dialogue == null)
-        {
-            Debug.LogError($"Dialogue {dialogueName} not found!");
-            return;
-        }
-        dialogueManager.StartDialogue(dialogue);
+        yield return new WaitForSeconds(2f);
     }
 }
