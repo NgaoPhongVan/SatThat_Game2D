@@ -1,31 +1,33 @@
 ﻿using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    public Transform target;
     [SerializeField] private float smoothSpeed = 0.125f;
-    [SerializeField] private Vector3 offset = new Vector3(0f, 2f, -10f);
+    [SerializeField] private Vector3 offset = new Vector3(0, 2, -10);
 
-    [Header("Position Constraints")]
-    [SerializeField] private float minX = 0f;  // Giới hạn tối thiểu trục X
-    [SerializeField] private float maxX = 160f; // Giới hạn tối đa trục X
+    // Giới hạn camera
+    [SerializeField] private float minX = 0f;
+    [SerializeField] private float maxX = 155f;
 
     private void LateUpdate()
     {
-        if (target == null)
-        {
-            Debug.LogWarning("Camera target is not assigned!");
-            return;
-        }
+        if (target == null) return;
 
-        // Tính toán vị trí đích
+        // Tính toán vị trí mới cho camera
         Vector3 desiredPosition = target.position + offset;
 
-        // Áp dụng giới hạn cho trục X
+        // Giới hạn vị trí X
         desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
 
-        // Di chuyển mượt đến vị trí đích
+        // Làm mượt chuyển động camera
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
+    }
+
+    // Phương thức để thay đổi target
+    public void ChangeTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }

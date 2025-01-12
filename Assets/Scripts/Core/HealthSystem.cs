@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine.Events;
+using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -8,7 +8,7 @@ public class HealthSystem : MonoBehaviour
 
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
-    public UnityEvent OnHit; // Thêm event mới cho hit
+    public UnityEvent OnHit;
 
     private void Start()
     {
@@ -16,21 +16,31 @@ public class HealthSystem : MonoBehaviour
         OnHealthChanged?.Invoke(GetHealthPercentage());
     }
 
-    public void TakeDamage(float damage)
+    public void SetHealth(float healthPercentage)
     {
-        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
-        float finalDamage = damage;
+        // Đảm bảo giá trị nằm trong khoảng 0-100
+        healthPercentage = Mathf.Clamp(healthPercentage, 0f, 100f);
 
-        if (playerMovement != null)
-        {
-            // Áp dụng giảm sát thương nếu đang block
-            finalDamage *= playerMovement.GetDamageReduction();
-        }
+        // Chuyển đổi từ phần trăm sang giá trị thực
+        currentHealth = (healthPercentage / 100f) * maxHealth;
 
-        currentHealth = Mathf.Max(0, currentHealth - finalDamage);
+        // Thông báo thay đổi máu
         OnHealthChanged?.Invoke(GetHealthPercentage());
 
-        // Kích hoạt event hit
+        // Kiểm tra nếu máu về 0
+        if (currentHealth <= 0)
+        {
+            OnDeath?.Invoke();
+        }
+
+        Debug.Log($"Health set to {healthPercentage}% ({currentHealth}/{maxHealth})");
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+        OnHealthChanged?.Invoke(GetHealthPercentage());
+
         OnHit?.Invoke();
 
         if (currentHealth <= 0)
@@ -48,5 +58,17 @@ public class HealthSystem : MonoBehaviour
     public float GetHealthPercentage()
     {
         return currentHealth / maxHealth;
+    }
+
+    // Thêm getter cho maxHealth nếu cần
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    // Thêm getter cho currentHealth nếu cần
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }

@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     private Queue<Dialogue.DialogLine> dialogueLines; // Hàng đợi các dòng thoại
     private bool isTyping = false; // Kiểm tra trạng thái gõ chữ
     private Coroutine typewriterCoroutine;
+    private bool isDialogueActive = false; // Thêm biến theo dõi trạng thái dialogue
     // Thêm delegate và sự kiện callback
     public delegate void DialogueEndCallback();
     public event DialogueEndCallback OnDialogueEnd;
@@ -28,14 +29,15 @@ public class DialogueManager : MonoBehaviour
         dialogueUI.SetActive(false);
         nextButton.onClick.RemoveAllListeners();
         nextButton.onClick.AddListener(HandleNextButtonClick);
+        isDialogueActive = false;
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
         dialogueUI.SetActive(true);
+        isDialogueActive = true;
         dialogueLines.Clear();
 
-        // Thêm từng dòng thoại vào hàng đợi
         foreach (var line in dialogue.lines)
         {
             dialogueLines.Enqueue(line);
@@ -46,32 +48,40 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        // Nếu đang hiển thị từ từ, hoàn thành đoạn hiện tại ngay lập tức
         if (isTyping)
         {
             CompleteCurrentLine();
             return;
         }
 
-        // Nếu không còn câu thoại nào, kết thúc hội thoại
         if (dialogueLines.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        // Lấy dòng thoại tiếp theo từ hàng đợi
         var currentLine = dialogueLines.Dequeue();
-
-        // Cập nhật tên nhân vật và hình ảnh
         nameText.text = currentLine.characterName;
         characterImage.sprite = currentLine.characterSprite;
 
-        // Bắt đầu hiệu ứng typewriter cho nội dung thoại
         if (typewriterCoroutine != null)
             StopCoroutine(typewriterCoroutine);
 
         typewriterCoroutine = StartCoroutine(TypeText(currentLine.text));
+    }
+
+    private void EndDialogue()
+    {
+        dialogueUI.SetActive(false);
+        isDialogueActive = false;
+        Debug.Log("Dialogue ended.");
+        OnDialogueEnd?.Invoke();
+    }
+
+    // Thêm phương thức kiểm tra trạng thái dialogue
+    public bool IsDialogueActive()
+    {
+        return isDialogueActive;
     }
 
 
@@ -123,15 +133,5 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
-    }
-
-
-    private void EndDialogue()
-    {
-        dialogueUI.SetActive(false);
-        Debug.Log("Dialogue ended.");
-
-        // Gọi sự kiện kết thúc hội thoại
-        OnDialogueEnd?.Invoke();
     }
 }

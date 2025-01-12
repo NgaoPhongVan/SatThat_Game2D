@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
+  m_Name: BaoDong
+  m_EditorClassIdentifier: 
+  lines:
+  - characterName: Cha
+    text: "Ng\u1ECDc! Mau l\u1EA1i \u0111\xE2y! Nghe ti\u1EBFng k\xE8n ch\u1EE9?
+      Qu\xE2n Nguy\xEAn \u0111\xE3 t\u1EDBi!"
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "Cha! Ch\xFAng ta ph\u1EA3i l\xE0m g\xEC b\xE2y gi\u1EDD? H\u1ECD c\xF3
+      \u0111\xF4ng kh\xF4ng?"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: Cha
+    text: "\u0110\xF4ng hay kh\xF4ng, kh\xF4ng quan tr\u1ECDng. Con ph\u1EA3i chi\u1EBFn
+      \u0111\u1EA5u! \u0110\xE2y l\xE0 ng\xF4i l\xE0ng c\u1EE7a ch\xFAng ta! C\u1EA7m
+      l\u1EA5y thanh ki\u1EBFm n\xE0y."
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "Con ch\u1EC9 v\u1EEBa h\u1ECDc c\xE1ch r\xE8n ki\u1EBFm... con kh\xF4ng
+      bi\u1EBFt chi\u1EBFn \u0111\u1EA5u!"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: Cha
+    text: "(Gi\u1ECDng nghi\xEAm ngh\u1ECB) Kh\xF4ng c\xF2n th\u1EDDi gian \u0111\u1EC3
+      s\u1EE3 h\xE3i, Ng\u1ECDc! Ta s\u1EBD ch\u1EC9 con nh\u1EEFng g\xEC c\u1EA7n
+      bi\u1EBFt. \u0110\u1EA7u ti\xEAn, h\xE3y h\u1ECDc c\xE1ch n\xE9 \u0111\xF2n.
+      \u0110\u1EEBng \u0111\u1EC3 ch\xFAng \u0111\xE1nh tr\xFAng con!"
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: Cha
+    text: "T\u1ED1t l\u1EAFm! Gi\u1EDD th\xEC nh\u1EDB, \u0111\u1EEBng ch\u1EC9 ph\xF2ng
+      th\u1EE7, h\xE3y t\u1EA5n c\xF4ng b\u1EB1ng nh\u1EEFng c\xFA ch\xE9m m\u1EA1nh
+      v\xE0 li\xEAn ho\xE0n."
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: Cha
+    text: "Nh\u1EDB: quan s\xE1t, ph\u1EA3n x\u1EA1 v\xE0 t\u1EADn d\u1EE5ng c\u01A1
+      h\u1ED9i. H\xE3y theo ta!"
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "V\xE2ng, cha"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
