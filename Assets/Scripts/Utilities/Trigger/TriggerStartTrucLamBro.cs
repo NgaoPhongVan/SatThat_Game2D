@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerZone : MonoBehaviour
+public class TriggerStartTrucLamBro : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private TigerBossController bossTiger;
+    
 
     private bool isTriggered = false;
 
@@ -20,14 +21,9 @@ public class TriggerZone : MonoBehaviour
             if (finalCameraFollow != null)
             {
                 finalCameraFollow.ChangeTarget("BossTiger");
-                if (bossTiger == null)
-                {
-                    bossTiger = FindObjectOfType<TigerBossController>();
-                }
-                bossTiger.ActiveBoss();
+                
             }
-            
+
         }
     }
-
 }

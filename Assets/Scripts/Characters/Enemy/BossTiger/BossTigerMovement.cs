@@ -104,7 +104,7 @@ public class TigerBossController : MonoBehaviour
     {
         if (isDeath) return;
         isDeath = true;
-        CameraFollow finalCameraFollow = mainCamera.GetComponent<CameraFollow>();
+        CameraChap2Controller finalCameraFollow = mainCamera.GetComponent<CameraChap2Controller>();
         if (finalCameraFollow != null)
         {
             finalCameraFollow.ChangeTarget("Player");
@@ -208,7 +208,7 @@ public class TigerBossController : MonoBehaviour
             {
                 // Khi đã đến activePoint
                 transform.position = activePoint.position;
-                CameraFollow finalCameraFollow = mainCamera.GetComponent<CameraFollow>();
+                CameraChap2Controller finalCameraFollow = mainCamera.GetComponent<CameraChap2Controller>();
                 if (finalCameraFollow != null)
                 {
                     finalCameraFollow.ChangeTarget("Point");
