@@ -185,6 +185,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   healthItemPrefab: {fileID: 18091244103300565, guid: a955493c7845b38498a8766688c5e672, type: 3}
+  manaItemPrefab: {fileID: 8810043582892012822, guid: bdcfac042451f16458a0fdab793c4e48, type: 3}
   dropChance: 0.5
 --- !u!114 &8431755651137111123
 MonoBehaviour:

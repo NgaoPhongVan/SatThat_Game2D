@@ -3074,9 +3074,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c363b513bf9ea5f41b52227203323e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1754381195}
   smoothSpeed: 0.125
   offset: {x: 0, y: 2, z: -10}
+  Player: {fileID: 1754381195}
+  BossTiger: {fileID: 0}
+  PointSetUpCamera: {fileID: 0}
   minX: 0
   maxX: 155
 --- !u!1 &124462537
@@ -52700,6 +52702,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1884715729 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5560442211251044402, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
+  m_PrefabInstance: {fileID: 3834053817552508926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1884715730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884715729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb34b80eb859e640815b60f8c35818a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMana: 50
+  OnManaChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OutOfMana:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1893712281
 GameObject:
   m_ObjectHideFlags: 0
@@ -60994,7 +61020,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5560442211251044402, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1884715730}
   m_SourcePrefab: {fileID: 100100000, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
 --- !u!1001 &5419568691630987427
 PrefabInstance:

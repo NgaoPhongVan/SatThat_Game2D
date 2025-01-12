@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private bool outOfMana = false;
     private bool isBuff = false;
     private float currentMana;
+    private bool isManaRecovering = false;
     private Coroutine buffCoroutine;
 
 
@@ -487,6 +488,19 @@ public class PlayerMovement : MonoBehaviour
         {
             OutOfMana();
         }
+    }
+
+    // Thêm hàm xử lý animation event
+    public void OnManaRecoveringStart()
+    {
+        isManaRecovering = true;
+        rb.velocity = Vector2.zero;
+    }
+
+    public void OnManaRecoveringComplete()
+    {
+        isManaRecovering = false;
+        animator.SetBool("isManaRecovering", false);
     }
 
     private void OutOfMana()

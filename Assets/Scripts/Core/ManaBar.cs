@@ -28,7 +28,7 @@ public class ManaBar : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No HealthSystem found for HealthBar!");
+            Debug.LogError("No ManaSystem found for ManaBar!");
         }
     }
 

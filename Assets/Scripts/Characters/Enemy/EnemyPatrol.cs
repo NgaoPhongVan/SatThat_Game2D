@@ -18,7 +18,8 @@ public class EnemyPatrol : MonoBehaviour
 
     [Header("Drop Settings")]
     [SerializeField] private GameObject healthItemPrefab;
-    [SerializeField] private float dropChance = 0.5f;
+    [SerializeField] private GameObject manaItemPrefab;
+    [SerializeField] private float dropChance = 1f;
 
     private Vector2 startPosition;
     private Vector2 patrolEndPosition;
@@ -106,20 +107,48 @@ public class EnemyPatrol : MonoBehaviour
         enabled = false;
 
         // Thử thả vật phẩm
-        TryDropHealthItem();
+        //TryDropHealthItem();
+        //TryDropManaItem();
+        TryDropItem();
 
         // Xóa enemy
         Destroy(gameObject, 1f);
     }
 
-    private void TryDropHealthItem()
+    private void TryDropItem()
     {
-        if (healthItemPrefab != null && Random.value < dropChance)
+        if(healthItemPrefab != null && manaItemPrefab != null && Random.value < dropChance)
         {
             Vector3 dropPosition = transform.position;
-            Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
+            int itemDroped = Random.Range(1, 3);
+            if(itemDroped == 1)
+            {
+                Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(manaItemPrefab, dropPosition, Quaternion.identity);
+            }
         }
     }
+
+    //private void TryDropHealthItem()
+    //{
+    //    if (healthItemPrefab != null && Random.value < dropChance)
+    //    {
+    //        Vector3 dropPosition = transform.position;
+    //        Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
+    //    }
+    //}
+
+    //private void TryDropManaItem()
+    //{
+    //    if (manaItemPrefab != null && Random.value < dropChance)
+    //    {
+    //        Vector3 dropPosition = transform.position;
+    //        Instantiate(manaItemPrefab, dropPosition, Quaternion.identity);
+    //    }
+    //}
 
     private void Patrol()
     {
