@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Miniboss_Doitruong : MonoBehaviour
+public class Miniboss_DoitruongDark : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private float patrolSpeed = 3f;
@@ -384,7 +384,7 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
-        private void ReturnToPatrol()
+    private void ReturnToPatrol()
     {
         Debug.Log("Returning to patrol");
         isChasing = false;
@@ -415,17 +415,6 @@ public class Miniboss_Doitruong : MonoBehaviour
     private System.Collections.IEnumerator LoadNextSceneAfterDelay()
     {
         yield return new WaitForSeconds(sceneTransitionDelay);
-        // Cập nhật quest trước khi tắt UI
-        var questManager = QuestSystem.QuestManager.Instance;
-        if (questManager != null)
-        {
-            questManager.CompleteQuest("Clear_EnemyPatrol");
-            questManager.StartQuest("Hide_Enemy");
-        }
-        else
-        {
-            Debug.LogError("QuestManager is null!");
-        }
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
 

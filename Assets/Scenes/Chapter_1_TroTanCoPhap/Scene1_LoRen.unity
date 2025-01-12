@@ -5234,7 +5234,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 811437412}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1496306397535460028, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: m_LocalScale.x
@@ -5872,7 +5872,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 559563380}
-  - {fileID: 1667386378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &811437413
@@ -6760,7 +6759,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -1180873936, guid: 44a2589e281dd284a8bbb6c138f0970d, type: 3}
+  m_Sprite: {fileID: -319519828, guid: 72e1e2f0363b06542958929b4d22b912, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6780,8 +6779,8 @@ Transform:
   m_GameObject: {fileID: 898472129}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.86, y: -1.3000001, z: 0}
-  m_LocalScale: {x: 2.8, y: 2.8, z: 3}
+  m_LocalPosition: {x: -1.14, y: -0.78, z: 0}
+  m_LocalScale: {x: -4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -12116,11 +12115,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661501510}
   m_CullTransparentMesh: 1
---- !u!4 &1667386378 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1496306397535460028, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
-  m_PrefabInstance: {fileID: 709480559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1690129100
 GameObject:
   m_ObjectHideFlags: 0
@@ -15653,6 +15647,7 @@ SceneRoots:
   - {fileID: 1617363438}
   - {fileID: 577795796}
   - {fileID: 1043725328}
+  - {fileID: 709480559}
   - {fileID: 811437412}
   - {fileID: 8026940260288848411}
   - {fileID: 898472132}

@@ -108,7 +108,7 @@ public class FatherDeathCutsceneController : MonoBehaviour
     {
         if (fatherCharacter != null)
         {
-            fatherCharacter.layer = LayerMask.NameToLayer("Ground");
+            fatherCharacter.layer = LayerMask.NameToLayer("NPC");
             fatherCharacter.tag = "NPC";
             Debug.Log("Father is now vulnerable to attacks");
         }

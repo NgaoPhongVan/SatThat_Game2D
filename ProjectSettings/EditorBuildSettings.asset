@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 783844bd6e9e1e24594c7e5979278376
+  - enabled: 1
     path: Assets/Scenes/Chapter_1_TroTanCoPhap/Scene1_LoRen.unity
     guid: 26f79c2665881b7408ed529edd6cf8a0
   - enabled: 1
@@ -17,6 +20,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Chapter_1_TroTanCoPhap/Scene2_LangTanCong.unity
     guid: 0b9008266d3b3e44d8d3d8b0fd11b5ec
+  - enabled: 1
+    path: Assets/Scenes/Chapter_2_BiMatYenTu/Scene1_RungYenTu.unity
+    guid: 0a38d03712de04343a4032c9519ff359
+  - enabled: 1
+    path: Assets/Scenes/Chapter_2_BiMatYenTu/Scene2_DoanhTrai.unity
+    guid: e2fa2b265ac8a764da9d22b4fb4f9bbf
+  - enabled: 1
+    path: Assets/Scenes/Chapter_3_HuyetTheBachDang/Scene1_ChuanBiTranDia.unity
+    guid: a2ad2556f853a6f40b12f39f94c127fe
+  - enabled: 1
+    path: Assets/Scenes/Chapter_3_HuyetTheBachDang/Scene2_BaiCoc.unity
+    guid: 27f6326cb9574bf4f92b48a9853c5714
   - enabled: 1
     path: Assets/Scenes/PauseMenu.unity
     guid: 9491c08b0e5c4d2478616091f1756c60

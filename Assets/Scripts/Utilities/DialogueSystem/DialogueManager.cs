@@ -20,16 +20,27 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false; // Kiểm tra trạng thái gõ chữ
     private Coroutine typewriterCoroutine;
     private bool isDialogueActive = false; // Thêm biến theo dõi trạng thái dialogue
+
     // Thêm delegate và sự kiện callback
     public delegate void DialogueEndCallback();
     public event DialogueEndCallback OnDialogueEnd;
+
     private void Start()
     {
         dialogueLines = new Queue<Dialogue.DialogLine>();
         dialogueUI.SetActive(false);
         nextButton.onClick.RemoveAllListeners();
-        nextButton.onClick.AddListener(HandleNextButtonClick);
+        nextButton.onClick.AddListener(HandleNext); // Gắn sự kiện cho nút
         isDialogueActive = false;
+    }
+
+    private void Update()
+    {
+        // Kiểm tra phím Tab
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            HandleNext();
+        }
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -78,12 +89,10 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEnd?.Invoke();
     }
 
-    // Thêm phương thức kiểm tra trạng thái dialogue
     public bool IsDialogueActive()
     {
         return isDialogueActive;
     }
-
 
     private void CompleteCurrentLine()
     {
@@ -92,12 +101,12 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(typewriterCoroutine);
         }
 
-        // Hiển thị toàn bộ text còn lại
         dialogueText.maxVisibleCharacters = dialogueText.text.Length;
         isTyping = false;
     }
 
-    private void HandleNextButtonClick()
+    // Xử lý khi nhấn nút hoặc phím Tab
+    private void HandleNext()
     {
         if (isTyping)
         {

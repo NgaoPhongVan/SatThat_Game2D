@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -56,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnDeath.AddListener(HandleDeath);
             healthSystem.OnHit.AddListener(HandleHit);
         }
+        // Lưu tên scene hiện tại để sử dụng cho retry
+        PlayerPrefs.SetString("LastPlayedScene", SceneManager.GetActiveScene().name);
     }
 
     private void Update()
@@ -97,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetTrigger("hit");
             }
-
+            animator.SetTrigger("hit");
             StartCoroutine(HitStunCoroutine());
             StartCoroutine(InvulnerabilityCoroutine());
         }
@@ -125,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         {
             while (elapsedTime < invulnerableTime)
             {
+                //animator.SetTrigger("hit");
                 spriteRenderer.enabled = !spriteRenderer.enabled;
                 yield return new WaitForSeconds(0.1f);
                 elapsedTime += 0.1f;
@@ -185,13 +189,25 @@ public class PlayerMovement : MonoBehaviour
 
         // Vô hiệu hóa các thao tác điều khiển
         rb.velocity = Vector2.zero;
-        this.enabled = false; // Tắt script PlayerMovement
+        this.enabled = false;
 
-        // Vô hiệu hóa collider
+        //// Vô hiệu hóa collider
         //if (GetComponent<Collider2D>() != null)
         //{
         //    GetComponent<Collider2D>().enabled = false;
         //}
+
+        // Đợi animation death kết thúc rồi mới chuyển scene
+        StartCoroutine(ShowGameOverAfterDeath());
+    }
+
+    private System.Collections.IEnumerator ShowGameOverAfterDeath()
+    {
+        // Đợi animation death kết thúc
+        yield return new WaitForSeconds(1f);
+
+        // Load Game Over scene
+        SceneManager.LoadScene("GameOver");
     }
 
     // Sửa lại phương thức CanTakeDamage
