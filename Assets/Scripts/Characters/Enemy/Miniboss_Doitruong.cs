@@ -15,8 +15,12 @@ public class Miniboss_Doitruong : MonoBehaviour
     [SerializeField] private float waitTime = 5f; // Thời gian đứng yên tại điểm cuối
 
     [Header("Detection")]
-    [SerializeField] private float detectionRange = 5f; // Tầm phát hiện
-    [SerializeField] private LayerMask playerLayer; // Layer của player
+    [SerializeField] private float detectionRange = 5f;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask npcLayer; // Thêm layer cho NPC
+
+    private Transform currentTarget;
+    private bool isTargetingNPC = false;
 
     [Header("Phase Change Settings")]
     [SerializeField] private GameObject enemyPrefab; // Prefab của EnemyPatrol
@@ -71,6 +75,10 @@ public class Miniboss_Doitruong : MonoBehaviour
         {
             healthSystem.OnHit.AddListener(HandleHit);
         }
+
+        // Tìm player
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        currentTarget = player; // Ban đầu target là player
     }
     private void HandleHit()
     {
@@ -257,26 +265,30 @@ public class Miniboss_Doitruong : MonoBehaviour
 
     private void DealDamage(float damage)
     {
-        Debug.Log($"Attempting to deal {damage} damage");
-        Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(
+        // Xác định layer mask dựa trên target hiện tại
+        LayerMask targetLayer = isTargetingNPC ? npcLayer : playerLayer;
+
+        Collider2D[] hitTargets = Physics2D.OverlapCircleAll(
             transform.position + transform.right * 1f,
             1.5f,
-            playerLayer
+            targetLayer
         );
 
-        foreach (Collider2D hitPlayer in hitPlayers)
+        foreach (Collider2D hitTarget in hitTargets)
         {
-            Debug.Log($"Hit player: {hitPlayer.name}");
-            PlayerMovement playerMovement = hitPlayer.GetComponent<PlayerMovement>();
-            HealthSystem playerHealth = hitPlayer.GetComponent<HealthSystem>();
+            HealthSystem targetHealth = hitTarget.GetComponent<HealthSystem>();
 
-            if (playerHealth != null && playerMovement != null && playerMovement.CanTakeDamage())
+            if (targetHealth != null)
             {
-                playerHealth.TakeDamage(damage);
-                Debug.Log($"Dealt {damage} damage to player");
+                if (isTargetingNPC || (hitTarget.CompareTag("Player") && hitTarget.GetComponent<PlayerMovement>().CanTakeDamage()))
+                {
+                    targetHealth.TakeDamage(damage);
+                    Debug.Log($"Dealt {damage} damage to {hitTarget.name}");
+                }
             }
         }
     }
+
 
     private void CheckHealth(float healthPercentage)
     {
@@ -337,21 +349,27 @@ public class Miniboss_Doitruong : MonoBehaviour
 
     private void ChasePlayer()
     {
-        float distanceToStart = Vector2.Distance(transform.position, startPosition);
-        if (distanceToStart > patrolDistance)
+        // Nếu không có target hợp lệ, quay về tuần tra
+        if (currentTarget == null)
         {
-            isChasing = false;
             ReturnToPatrol();
             return;
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Vector2 directionToPlayer = ((Vector2)player.position - (Vector2)transform.position).normalized;
+        float distanceToStart = Vector2.Distance(transform.position, startPosition);
+        if (distanceToStart > patrolDistance)
+        {
+            ReturnToPatrol();
+            return;
+        }
 
-        if (distanceToPlayer <= 1.5f)
+        float distanceToTarget = Vector2.Distance(transform.position, currentTarget.position);
+        Vector2 directionToTarget = ((Vector2)currentTarget.position - (Vector2)transform.position).normalized;
+
+        if (distanceToTarget <= 1.5f)
         {
             rb.velocity = Vector2.zero;
-            UpdateFacingDirection(directionToPlayer.x > 0);
+            UpdateFacingDirection(directionToTarget.x > 0);
 
             if (Time.time >= lastAttackTime + attackRate)
             {
@@ -360,14 +378,17 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
         else
         {
-            rb.velocity = directionToPlayer * chaseSpeed;
-            UpdateFacingDirection(directionToPlayer.x > 0);
+            rb.velocity = directionToTarget * chaseSpeed;
+            UpdateFacingDirection(directionToTarget.x > 0);
             animator.SetBool("isMoving", true);
         }
     }
 
-    private void ReturnToPatrol()
+        private void ReturnToPatrol()
     {
+        Debug.Log("Returning to patrol");
+        isChasing = false;
+        isTargetingNPC = false;
         Vector2 returnDirection = (startPosition - (Vector2)transform.position).normalized;
         rb.velocity = returnDirection * patrolSpeed;
         UpdateFacingDirection(returnDirection.x > 0);
@@ -376,7 +397,6 @@ public class Miniboss_Doitruong : MonoBehaviour
         {
             transform.position = startPosition;
             rb.velocity = Vector2.zero;
-            isChasing = false;
             UpdateFacingDirection(movingRight);
         }
     }
@@ -403,6 +423,16 @@ public class Miniboss_Doitruong : MonoBehaviour
     {
         if (isDead || isHit) return;
 
+        // Kiểm tra nếu đang nhắm vào NPC và NPC không còn nữa
+        if (isTargetingNPC && currentTarget == null)
+        {
+            Debug.Log("NPC target lost, resetting to player target");
+            isTargetingNPC = false;
+            currentTarget = player;
+            isChasing = false; // Reset trạng thái chase
+            ReturnToPatrol(); // Quay về tuần tra
+        }
+
         CheckPlayerDetection();
 
         if (!isAttacking)
@@ -420,53 +450,46 @@ public class Miniboss_Doitruong : MonoBehaviour
 
     private void CheckPlayerDetection()
     {
-        if (player == null) return;
-
-        // Debug để kiểm tra khoảng cách
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Debug.Log($"Distance to player: {distanceToPlayer}");
-
-        // Kiểm tra player trong tầm phát hiện bằng cả Raycast và khoảng cách
-        RaycastHit2D hit = Physics2D.Raycast(
-            transform.position,
-            facingRight ? Vector2.right : Vector2.left,
-            detectionRange,
-            playerLayer
-        );
-
-        // Vẽ ray để debug trong Scene view
-        Debug.DrawRay(
-            transform.position,
-            (facingRight ? Vector2.right : Vector2.left) * detectionRange,
-            hit.collider != null ? Color.red : Color.green
-        );
-
-        // Debug hit information
-        if (hit.collider != null)
+        // Kiểm tra NPC trong tầm trước
+        Collider2D[] npcs = Physics2D.OverlapCircleAll(transform.position, detectionRange, npcLayer);
+        if (npcs.Length > 0)
         {
-            Debug.Log($"Hit object: {hit.collider.gameObject.name}");
-        }
-
-        // Kiểm tra phát hiện player bằng cả khoảng cách và hướng nhìn
-        Vector2 directionToPlayer = ((Vector2)player.position - (Vector2)transform.position).normalized;
-        float angle = Vector2.Angle(facingRight ? Vector2.right : Vector2.left, directionToPlayer);
-
-        if ((hit.collider != null && hit.collider.CompareTag("Player")) ||
-            (distanceToPlayer <= detectionRange && angle < 90f))
-        {
-            Debug.Log("Player detected!");
-            isChasing = true;
-            isWaiting = false;
-        }
-        else if (isChasing)
-        {
-            // Kiểm tra khoảng cách để quay về
-            float distanceToStart = Vector2.Distance(transform.position, startPosition);
-            if (distanceToStart > patrolDistance * 1.5f)
+            foreach (Collider2D npc in npcs)
             {
-                Debug.Log("Returning to patrol");
-                isChasing = false;
-                ReturnToPatrol();
+                // Kiểm tra có phải là NPC không
+                if (npc.CompareTag("NPC"))
+                {
+                    currentTarget = npc.transform;
+                    isTargetingNPC = true;
+                    isChasing = true;
+                    isWaiting = false;
+                    Debug.Log("NPC detected: " + npc.name);
+                    return;
+                }
+            }
+        }
+
+        // Nếu không có NPC, kiểm tra player
+        if (!isTargetingNPC && player != null)
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+            RaycastHit2D hit = Physics2D.Raycast(
+                transform.position,
+                facingRight ? Vector2.right : Vector2.left,
+                detectionRange,
+                playerLayer
+            );
+
+            Vector2 directionToPlayer = ((Vector2)player.position - (Vector2)transform.position).normalized;
+            float angle = Vector2.Angle(facingRight ? Vector2.right : Vector2.left, directionToPlayer);
+
+            if ((hit.collider != null && hit.collider.CompareTag("Player")) ||
+                (distanceToPlayer <= detectionRange && angle < 90f))
+            {
+                currentTarget = player;
+                isChasing = true;
+                isWaiting = false;
+                Debug.Log("Player detected!");
             }
         }
     }
@@ -489,6 +512,13 @@ public class Miniboss_Doitruong : MonoBehaviour
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(startPosition, patrolEndPosition);
+        }
+
+        // Vẽ vùng phát hiện NPC
+        if (isTargetingNPC)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
         }
     }
 

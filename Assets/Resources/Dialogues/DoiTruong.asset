@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
+  m_Name: DoiTruong
+  m_EditorClassIdentifier: 
+  lines:
+  - characterName: "Ng\u1ECDc"
+    text: "Cha! Kh\xF4ng... cha b\u1ECB th\u01B0\u01A1ng r\u1ED3i!"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: Cha
+    text: "(Th\u1EDF kh\xF3 nh\u1ECDc) Kh\xF4ng sao \u0111\xE2u... Ta \u0111\xE3
+      gi\xE0 r\u1ED3i, nh\u01B0ng con... con ph\u1EA3i ti\u1EBFp t\u1EE5c. \u0110\xE2y,
+      c\u1EA7m l\u1EA5y thanh ki\u1EBFm n\xE0y v\xE0 m\u1EA3nh b\xED k\xEDp."
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "Thanh ki\u1EBFm g\xE3y... m\u1EA3nh b\xED k\xEDp n\xE0y l\xE0 g\xEC, cha?"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: Cha
+    text: "\u0110\xE2y l\xE0 t\u1EA5t c\u1EA3 nh\u1EEFng g\xEC c\xF2n l\u1EA1i c\u1EE7a
+      t\u1ED5 ti\xEAn ch\xFAng ta. N\xF3 s\u1EBD ch\u1EC9 \u0111\u01B0\u1EDDng cho
+      con... \u0110\u1EEBng \u0111\u1EC3 hy sinh c\u1EE7a m\u1ECDi ng\u01B0\u1EDDi
+      v\xF4 \xEDch. H\xE3y... h\xE3y s\u1ED1ng ti\u1EBFp..."
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "(N\u1EE9c n\u1EDF) Cha! Kh\xF4ng... cha \u0111\u1EEBng b\u1ECF con...!"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}

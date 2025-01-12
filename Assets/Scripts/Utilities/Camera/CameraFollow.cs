@@ -1,21 +1,21 @@
 ﻿using System;
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-    
+
+    public Transform target;
     [SerializeField] private float smoothSpeed = 0.125f;
-    [SerializeField] private Vector3 offset = new Vector3(0f, 2f, -10f);
+    [SerializeField] private Vector3 offset = new Vector3(0, 2, -10);
 
     //Thanh thay doi
     [SerializeField] private Transform Player; // Player hoặc mục tiêu
     [SerializeField] private Transform BossTiger;
     [SerializeField] private Transform PointSetUpCamera;
-    private Transform target;
 
     [Header("Position Constraints")]
-    [SerializeField] private float minX = 0f; // Giới hạn tối thiểu trục X
-    [SerializeField] private float maxX = 108f; // Giới hạn tối đa trục X
+    [SerializeField] private float minX = 0f;
+    [SerializeField] private float maxX = 155f;
 
     private void Start()
     {
@@ -25,45 +25,45 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null)
-        {
-            Debug.LogWarning("Camera target is not assigned!");
-            return;
-        }
+        if (target == null) return;
 
-        // Tính toán vị trí đích
+        // Tính toán vị trí mới cho camera
         Vector3 desiredPosition = target.position + offset;
 
-        // Áp dụng giới hạn cho trục X
+        // Giới hạn vị trí X
         desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
 
-        // Di chuyển mượt đến vị trí đích
+        // Làm mượt chuyển động camera
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
     }
 
+    //public void ChangeTarget(String a)
+    //{
+    //    switch (a)
+    //    {
+    //        case "Player":
+    //            target = Player;
+    //            break;
+    //        case "BossTiger":
+    //            target = BossTiger;
+    //            break;
+    //        case "Point":
+    //            target = PointSetUpCamera;
+    //            break;
+    //    }
 
-    public void ChangeTarget(String a)
-    {
-        switch (a)
-        {
-            case "Player":
-                target = Player;
-                break;
-            case "BossTiger":
-                target = BossTiger;
-                break;
-            case "Point":
-                target = PointSetUpCamera;
-                break;
-        }
-
-    }
+    //}
 
     public void ChangeSizeCamera(int newSize = 5)
     {
         Camera camera = Camera.main;
         camera.orthographicSize = newSize;
+    }
+    // Phương thức để thay đổi target
+    public void ChangeTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }
 
