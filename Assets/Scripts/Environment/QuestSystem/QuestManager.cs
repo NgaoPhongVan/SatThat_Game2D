@@ -23,7 +23,8 @@ namespace QuestSystem
         {
            "forge_quest",           // Nhiệm vụ rèn kiếm
            "water_forge_quest",     // Nhiệm vụ tôi luyện kiếm
-           "Clear_EnemyPatrol"                         // Thêm các nhiệm vụ khác theo thứ tự
+           "Clear_EnemyPatrol",
+           "Hide_Enemy"
         };
 
         private void Awake()
@@ -47,7 +48,7 @@ namespace QuestSystem
             Quest forgeQuest = new Quest(
                 "forge_quest",
                 "Rèn Kiếm",
-                "Hoàn thành mini-game rèn kiếm để tiếp tục."
+                "Hoàn thành mini-game rèn kiếm để tiếp tục. (Nhấn vào đe)"
             );
             forgeQuest.questType = QuestType.MainQuest;
             allQuests.Add(forgeQuest.questId, forgeQuest);
@@ -57,7 +58,7 @@ namespace QuestSystem
             Quest waterForgeQuest = new Quest(
                 "water_forge_quest",
                 "Tôi luyện kiếm trong nước",
-                "Hoàn thành mini-game tôi luyện kiếm trong nước."
+                "Hoàn thành mini-game tôi luyện kiếm trong nước. (Nhấn vào thùng nước)"
             );
             waterForgeQuest.questType = QuestType.MainQuest;
             allQuests.Add(waterForgeQuest.questId, waterForgeQuest);
@@ -70,6 +71,14 @@ namespace QuestSystem
             );
             ClearEnemyPatrol.questType = QuestType.MainQuest;
             allQuests.Add(ClearEnemyPatrol.questId, ClearEnemyPatrol);
+
+            Quest HideEnemy = new Quest(
+                "Hide_Enemy",
+                "Tiến hành lẩn trốn trong bóng tối và tiêu diệt thủ lĩnh",
+                "Ẩn nấp tìm và tiêu diệt kẻ địch trong làng."
+            );
+            HideEnemy.questType = QuestType.MainQuest;
+            allQuests.Add(HideEnemy.questId, HideEnemy);
         }
 
         // Kiểm tra xem một nhiệm vụ có thể bắt đầu hay không

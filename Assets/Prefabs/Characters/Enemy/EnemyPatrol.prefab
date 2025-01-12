@@ -176,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolSpeed: 3
   chaseSpeed: 5
-  attackDamage: 1
+  attackDamage: 10
   attackRate: 0.5
   patrolDistance: 10
   waitTime: 3
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db17aa6acaee048458514bb4df5c49ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 70
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls:

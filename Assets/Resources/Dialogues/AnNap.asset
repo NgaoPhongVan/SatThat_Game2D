@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
+  m_Name: AnNap
+  m_EditorClassIdentifier: 
+  lines:
+  - characterName: "Ng\u1ECDc"
+    text: "C\xF3 v\u1EBB l\xE0ng \u0111\xE3 b\u1ECB b\u1ECDn ch\xFAng chi\u1EBFm
+      gi\u1EEF, c\u1EA9n th\u1EADn kh\xF4ng \u0111i qua c\xE1c v\xF9ng c\xF3 \xE1nh
+      s\xE1ng th\xEC s\u1EBD kh\xF4ng b\u1ECB ph\xE1t hi\u1EC7n..."
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: "Ng\u1ECDc"
+    text: "C\u1EA7n ch\xFA \xFD c\xE1c cung th\u1EE7 v\xEC ch\xFAng c\xF3 \xE1nh
+      m\u1EAFt r\u1EA5t nh\u1EA1y b\xE9n ngay c\u1EA3 trong b\xF3ng t\u1ED1i"
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
