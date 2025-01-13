@@ -1,14 +1,14 @@
-﻿using UnityEngine.Events;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class HealthSystem : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    public float currentHealth;
 
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
-    public UnityEvent OnHit;
+    public UnityEvent OnHit; // Thêm event mới cho hit
 
     private void Start()
     {
@@ -16,29 +16,12 @@ public class HealthSystem : MonoBehaviour
         OnHealthChanged?.Invoke(GetHealthPercentage());
     }
 
-    public void SetHealth(float healthPercentage)
-    {
-        // Đảm bảo giá trị nằm trong khoảng 0-100
-        healthPercentage = Mathf.Clamp(healthPercentage, 0f, 100f);
-
-        // Chuyển đổi từ phần trăm sang giá trị thực
-        currentHealth = (healthPercentage / 100f) * maxHealth;
-
-        // Thông báo thay đổi máu
-        OnHealthChanged?.Invoke(GetHealthPercentage());
-
-        // Kiểm tra nếu máu về 0
-        if (currentHealth <= 0)
-        {
-            OnDeath?.Invoke();
-        }
-    }
-
     public void TakeDamage(float damage)
     {
         currentHealth = Mathf.Max(0, currentHealth - damage);
         OnHealthChanged?.Invoke(GetHealthPercentage());
 
+        // Kích hoạt event hit
         OnHit?.Invoke();
 
         if (currentHealth <= 0)
@@ -56,17 +39,5 @@ public class HealthSystem : MonoBehaviour
     public float GetHealthPercentage()
     {
         return currentHealth / maxHealth;
-    }
-
-    // Thêm getter cho maxHealth nếu cần
-    public float GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    // Thêm getter cho currentHealth nếu cần
-    public float GetCurrentHealth()
-    {
-        return currentHealth;
     }
 }

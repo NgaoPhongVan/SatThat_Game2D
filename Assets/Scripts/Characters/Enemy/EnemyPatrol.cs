@@ -13,17 +13,12 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float waitTime = 5f; // Thời gian đứng yên tại điểm cuối
 
     [Header("Detection")]
-    [SerializeField] private float detectionRange = 5f; // Tầm phát hiện
+    public float detectionRange = 5f; // Tầm phát hiện
     [SerializeField] private LayerMask playerLayer; // Layer của player
-
-    [Header("Drop Settings")]
-    [SerializeField] private GameObject healthItemPrefab;
-    [SerializeField] private GameObject manaItemPrefab;
-    [SerializeField] private float dropChance = 1f;
-
+    [SerializeField] private bool isOnBoat;
     private Vector2 startPosition;
     private Vector2 patrolEndPosition;
-    private bool movingRight = true;
+    public bool movingRight = true;
     private bool isChasing = false;
     private bool isAttacking = false;
     private bool isWaiting = false;
@@ -38,21 +33,23 @@ public class EnemyPatrol : MonoBehaviour
     private Animator animator;
     private bool isDead = false;
     private bool isHit = false;
+    private Transform currentBoat;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         healthSystem = GetComponent<HealthSystem>();
         animator = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-
+        if(GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         startPosition = transform.position;
         patrolEndPosition = startPosition + Vector2.right * patrolDistance;
-
+        Patrol();
         // Đăng ký sự kiện cho health system
         healthSystem.OnHealthChanged.AddListener(CheckHealth);
         healthSystem.OnDeath.AddListener(HandleDeath);
-
         if (healthSystem != null)
         {
             healthSystem.OnHit.AddListener(HandleHit);
@@ -106,53 +103,17 @@ public class EnemyPatrol : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
 
-        // Thử thả vật phẩm
-        //TryDropHealthItem();
-        //TryDropManaItem();
-        TryDropItem();
-
-        // Xóa enemy
+        // Xóa enemy sau 1 giây
         Destroy(gameObject, 1f);
     }
 
-    private void TryDropItem()
-    {
-        if(healthItemPrefab != null && manaItemPrefab != null && Random.value < dropChance)
-        {
-            Vector3 dropPosition = transform.position;
-            int itemDroped = Random.Range(1, 3);
-            if(itemDroped == 1)
-            {
-                Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(manaItemPrefab, dropPosition, Quaternion.identity);
-            }
-        }
-    }
-
-    //private void TryDropHealthItem()
-    //{
-    //    if (healthItemPrefab != null && Random.value < dropChance)
-    //    {
-    //        Vector3 dropPosition = transform.position;
-    //        Instantiate(healthItemPrefab, dropPosition, Quaternion.identity);
-    //    }
-    //}
-
-    //private void TryDropManaItem()
-    //{
-    //    if (manaItemPrefab != null && Random.value < dropChance)
-    //    {
-    //        Vector3 dropPosition = transform.position;
-    //        Instantiate(manaItemPrefab, dropPosition, Quaternion.identity);
-    //    }
-    //}
-
     private void Patrol()
     {
-        animator.SetBool("isMoving", true);
+        if (animator == null) return;
+        if(!isOnBoat)
+        {
+            animator.SetBool("isMoving", true);
+        }
 
         if (isWaiting)
         {
@@ -169,7 +130,7 @@ public class EnemyPatrol : MonoBehaviour
 
         Vector2 targetPosition = movingRight ? patrolEndPosition : startPosition;
         Vector2 moveDirection = (targetPosition - (Vector2)transform.position).normalized;
-        rb.velocity = moveDirection * patrolSpeed;
+        rb.velocity     = moveDirection * patrolSpeed;
 
         float distanceToTarget = Vector2.Distance(transform.position, targetPosition);
         if (distanceToTarget < 0.1f)
@@ -183,13 +144,17 @@ public class EnemyPatrol : MonoBehaviour
 
     private void ChasePlayer()
     {
-        float distanceToStart = Vector2.Distance(transform.position, startPosition);
-        if (distanceToStart > patrolDistance)
+        if(!isOnBoat)
         {
-            isChasing = false;
-            ReturnToPatrol();
-            return;
+            float distanceToStart = Vector2.Distance(transform.position, startPosition);
+            if (distanceToStart > patrolDistance)
+            {
+                isChasing = false;
+                ReturnToPatrol();
+                return;
+            }
         }
+        
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         Vector2 directionToPlayer = ((Vector2)player.position - (Vector2)transform.position).normalized;
@@ -272,11 +237,14 @@ public class EnemyPatrol : MonoBehaviour
         {
             UpdateFacingDirection(movingRight);
         }
-
-        animator.SetBool("isMoving", true);
+        if(!isOnBoat)
+        {
+            animator.SetBool("isMoving", true);
+        }
     }
-
-    private void UpdateFacingDirection(bool shouldFaceRight)
+    
+    // Thay thế hàm Flip() bằng hàm mới này
+    public void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
         {
@@ -312,7 +280,7 @@ public class EnemyPatrol : MonoBehaviour
 
         // Debug để kiểm tra khoảng cách
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        //Debug.Log($"Distance to player: {distanceToPlayer}");
+        Debug.Log($"Distance to player: {distanceToPlayer}");
 
         // Kiểm tra player trong tầm phát hiện bằng cả Raycast và khoảng cách
         RaycastHit2D hit = Physics2D.Raycast(
@@ -357,6 +325,12 @@ public class EnemyPatrol : MonoBehaviour
                 ReturnToPatrol();
             }
         }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()

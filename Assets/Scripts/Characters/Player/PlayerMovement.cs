@@ -1,6 +1,4 @@
-
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,16 +12,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private Transform groundCheck;
-    public float checkDistance = 0.1f;
 
     [Header("Attack Settings")]
     [SerializeField] private float attackDamage = 20f;
-    [SerializeField] private float heavyAttackDamge = 30f;
     [SerializeField] private float attackRate = 0.5f; // Thời gian giữa các đòn đánh
     [SerializeField] private float attackRange = 1f; // Tầm đánh
     [SerializeField] private Transform attackPoint; // Điểm xuất phát đòn đánh
     [SerializeField] private LayerMask enemyLayer; // Layer của enemy
-
+    [SerializeField] private LayerMask bossLayer;
     private Rigidbody2D rb;
     private Animator animator;
     private float horizontalInput;
@@ -46,15 +42,11 @@ public class PlayerMovement : MonoBehaviour
     private bool shouldResumeBlock = false;
     private bool isHealing = false;
 
-    private ManaSystem manaSystem;
-    private bool outOfMana = false;
-    private bool isBuff = false;
-    private float currentMana;
-    private bool isManaRecovering = false;
-    private Coroutine buffCoroutine;
-
 
     private SpriteRenderer spriteRenderer;
+    private Transform currentBoat;
+    public LayerMask boatMask;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -69,17 +61,8 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnDeath.AddListener(HandleDeath);
             healthSystem.OnHit.AddListener(HandleHit);
         }
-
-        manaSystem = GetComponent<ManaSystem>();
-        //Dk event cho mana
-        if(manaSystem != null)
-        {
-            manaSystem.OnManaChanged.AddListener(CheckMana);
-            manaSystem.OutOfMana.AddListener(OutOfMana);
-        }
         // Lưu tên scene hiện tại để sử dụng cho retry
         PlayerPrefs.SetString("LastPlayedScene", SceneManager.GetActiveScene().name);
-
     }
 
     private void Update()
@@ -87,19 +70,14 @@ public class PlayerMovement : MonoBehaviour
         if (isDead) return;
         if (isHit) return;
         if (isHealing) return;
-
-        currentMana = manaSystem.getCurrentMana();
-
         CheckGrounded();
         HandleBlock();
-        HanlePush();
+
         // Chỉ xử lý movement và attack nếu không đang block
         if (!isBlocking)
         {
             HandleMovement();
             HandleAttack();
-            HandleHeavyAttack();
-            HandleUseBuff();
         }
         HandleJumpAnimation();
         if (!isHealing)
@@ -108,8 +86,6 @@ public class PlayerMovement : MonoBehaviour
             HandleMovement();
             HandleJumpAnimation();
             HandleAttack();
-            HandleHeavyAttack();
-            HandleUseBuff();
         }
     }
 
@@ -161,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
     private System.Collections.IEnumerator InvulnerabilityCoroutine()
     {
+        // Hiệu ứng nhấp nháy khi bất tử
         float elapsedTime = 0f;
 
         // Xử lý khác nhau tùy theo đang block hay không
@@ -243,9 +220,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isHealing = false;
     }
-
-    
-    // Sửa lại phương thức CanTakeDamage
 
     public bool CanTakeDamage()
     {
@@ -345,6 +319,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isFalling", false);
             animator.SetBool("isGrounded", false);
         }
+        // Đang rơi xuống
         else if (verticalVelocity < -0.1f)
         {
             animator.SetBool("isJumping", false);
@@ -360,12 +335,24 @@ public class PlayerMovement : MonoBehaviour
             Attack();
         }
     }
-
-    private void HandleHeavyAttack()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Input.GetMouseButtonDown(1) && Time.time >= lastAttackTime + attackRate && !isAttacking && isBuff)
+        Debug.Log("Cham be");
+        if (other.CompareTag("boat"))
         {
-            HeavyAttack();
+            currentBoat = other.transform;
+            transform.SetParent(currentBoat);
+            isGrounded = true;
+
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!gameObject.activeSelf) { return; }
+        if (currentBoat != null && collision.CompareTag("boat"))
+        {
+            transform.SetParent(null);
+            currentBoat = null;
         }
     }
 
@@ -385,46 +372,6 @@ public class PlayerMovement : MonoBehaviour
             enemyLayer
         );
 
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            HealthSystem enemyHealth = enemy.GetComponent<HealthSystem>();
-            if (enemyHealth != null)
-            {
-
-                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
-                if (isBuff)
-                {
-                    enemyHealth.TakeDamage(attackDamage+5f);
-                }
-                else
-                {
-                    enemyHealth.TakeDamage(attackDamage);
-                }
-            }
-        }
-
-        // Sử dụng Animation Event thay vì Coroutine
-        // Animation Event sẽ gọi OnAttackComplete khi animation kết thúc
-    }
-    private void HeavyAttack()
-    {
-        isAttacking = true;
-        lastAttackTime = Time.time;
-        animator.SetTrigger("heavyAttack");
-
-
-
-
-        // Đảm bảo không di chuyển khi đang tấn công
-        rb.velocity = Vector2.zero;
-
-        // Phát hiện và gây sát thương cho enemy
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
-            attackPoint.position,
-            attackRange,
-            enemyLayer
-        );
-
         // Debug.Log($"Detected {hitEnemies.Length} enemies in range"); // Debug line
 
         foreach (Collider2D enemy in hitEnemies)
@@ -432,10 +379,28 @@ public class PlayerMovement : MonoBehaviour
             HealthSystem enemyHealth = enemy.GetComponent<HealthSystem>();
             if (enemyHealth != null)
             {
-                
-                enemyHealth.TakeDamage(heavyAttackDamge);
+                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
+                enemyHealth.TakeDamage(attackDamage);
             }
         }
+
+        Collider2D[] hitBoss = Physics2D.OverlapCircleAll(
+            attackPoint.position,
+            attackRange,
+            bossLayer
+            );
+        foreach (Collider2D boss in hitBoss)
+        {
+            HealthSystem bossHealth = boss.GetComponent<HealthSystem>();
+            if (bossHealth != null && !bossHealth.gameObject.GetComponent<BossController>().isDefending)
+            {
+                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
+                bossHealth.TakeDamage(attackDamage);
+            }
+        }
+
+        // Sử dụng Animation Event thay vì Coroutine
+        // Animation Event sẽ gọi OnAttackComplete khi animation kết thúc
     }
 
     // Thêm phương thức này để gọi từ Animation Event
@@ -461,6 +426,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
+
     // Vẽ Gizmos để debug tầm đánh
     private void OnDrawGizmosSelected()
     {
@@ -479,106 +445,5 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnDeath.RemoveListener(HandleDeath);
             healthSystem.OnHit.RemoveListener(HandleHit);
         }
-
-        if (manaSystem != null)
-        {
-            manaSystem.OnManaChanged.RemoveListener(CheckMana);
-        }
     }
-
-
-    // Xu ly su dung mana
-
-    private void CheckMana(float manaPercentage)
-    {
-        if (manaPercentage <= 0 )
-        {
-            OutOfMana();
-        }
-    }
-
-    // Thêm hàm xử lý animation event
-    public void OnManaRecoveringStart()
-    {
-        isManaRecovering = true;
-        rb.velocity = Vector2.zero;
-    }
-
-    public void OnManaRecoveringComplete()
-    {
-        isManaRecovering = false;
-        animator.SetBool("isManaRecovering", false);
-    }
-
-    private void OutOfMana()
-    {
-        if (isDead) return;
-
-        outOfMana = true;
-    }
-
-    private void HandleUseBuff()
-    {
-        if (!isBuff && currentMana >= 20f )
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                UseBuff();
-            }
-            
-        }
-    }
-
-    private void UseBuff()
-    {
-        if (isDead || isBuff) return; // Kiểm tra nếu nhân vật đã chết hoặc đang buff
-
-        //Input.GetKeyDown(KeyCode.E);
-
-        isBuff = true;
-        animator.SetBool("isBuff", true);
-        manaSystem.UseBuff(20f);
-
-        if (buffCoroutine != null)
-        {
-            StopCoroutine(buffCoroutine); // Dừng bất kỳ buff nào đang chạy trước đó
-        }
-
-        buffCoroutine = StartCoroutine(DisableBuffAfterDuration(3f)); // Chạy buff trong 3 giây
-    }
-
-    private IEnumerator DisableBuffAfterDuration(float duration)
-    {
-        yield return new WaitForSeconds(duration); // Chờ 3 giây
-
-        isBuff = false;
-        animator.SetBool("isBuff", false);
-        buffCoroutine = null; // Reset lại Coroutine để có thể kích hoạt buff lại
-    }
-
-
-    private void HanlePush()
-    {
-
-        Vector2 direction = facingRight ? Vector2.right : Vector2.left;
-
-        // Tính vị trí kiểm tra phía trước nhân vật
-        Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
-
-        // Kiểm tra OverlapCircle
-        Collider2D hit = Physics2D.OverlapCircle(checkPosition, 0.1f, groundLayer);
-
-        if (hit != null)
-        {
-            Debug.Log("Có Ground phía trước!");
-            animator.SetBool("isPushing", true);
-            animator.SetTrigger("push");
-        }
-        else
-        {
-            Debug.Log("Không có Ground phía trước!");
-        }
-
-    }
-
 }
