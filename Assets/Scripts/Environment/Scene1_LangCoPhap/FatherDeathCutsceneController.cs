@@ -53,11 +53,11 @@ public class FatherDeathCutsceneController : MonoBehaviour
         fatherCharacter.transform.position = fatherPosition;
         fatherCharacter.SetActive(true);
 
-        // Set máu cha còn ít
+      /*  // Set máu cha còn ít
         if (fatherHealth != null)
         {
             fatherHealth.SetHealth(20f);
-        }
+        }*/
 
         // Chuyển camera sang MiniBoss
         if (cameraController != null && miniBoss != null)

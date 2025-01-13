@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float attackRange = 1f; // Tầm đánh
     [SerializeField] private Transform attackPoint; // Điểm xuất phát đòn đánh
     [SerializeField] private LayerMask enemyLayer; // Layer của enemy
-
+    [SerializeField] private LayerMask bossLayer;
     private Rigidbody2D rb;
     private Animator animator;
     private float horizontalInput;
@@ -42,7 +42,11 @@ public class PlayerMovement : MonoBehaviour
     private bool shouldResumeBlock = false;
     private bool isHealing = false;
 
+
     private SpriteRenderer spriteRenderer;
+    private Transform currentBoat;
+    public LayerMask boatMask;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         if (isHit) return;
         if (isHealing) return;
         CheckGrounded();
+        
         HandleBlock();
 
         // Chỉ xử lý movement và attack nếu không đang block
@@ -133,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
 
     private System.Collections.IEnumerator InvulnerabilityCoroutine()
     {
+        // Hiệu ứng nhấp nháy khi bất tử
         float elapsedTime = 0f;
 
         // Xử lý khác nhau tùy theo đang block hay không
@@ -299,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
     {
         verticalVelocity = rb.velocity.y;
         bool wasGrounded = isGrounded;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || currentBoat != null;
 
         // Kiểm tra trạng thái
         if (isGrounded)
@@ -314,6 +320,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isFalling", false);
             animator.SetBool("isGrounded", false);
         }
+        // Đang rơi xuống
         else if (verticalVelocity < -0.1f)
         {
             animator.SetBool("isJumping", false);
@@ -327,6 +334,26 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= lastAttackTime + attackRate && !isAttacking)
         {
             Attack();
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Cham be");
+        if (other.CompareTag("boat"))
+        {
+            currentBoat = other.transform;
+            transform.SetParent(currentBoat);
+            isGrounded = true;
+            HandleJumpAnimation();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!gameObject.activeSelf) { return; }
+        if (currentBoat != null && collision.CompareTag("boat"))
+        {
+            transform.SetParent(null);
+            currentBoat = null;
         }
     }
 
@@ -346,15 +373,35 @@ public class PlayerMovement : MonoBehaviour
             enemyLayer
         );
 
+        // Debug.Log($"Detected {hitEnemies.Length} enemies in range"); // Debug line
+
         foreach (Collider2D enemy in hitEnemies)
         {
             HealthSystem enemyHealth = enemy.GetComponent<HealthSystem>();
             if (enemyHealth != null)
             {
-                // Debug.Log($"Dealing damage to {enemy.name}");
+                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
                 enemyHealth.TakeDamage(attackDamage);
             }
         }
+
+        Collider2D[] hitBoss = Physics2D.OverlapCircleAll(
+            attackPoint.position,
+            attackRange,
+            bossLayer
+            );
+        foreach (Collider2D boss in hitBoss)
+        {
+            HealthSystem bossHealth = boss.GetComponent<HealthSystem>();
+            if (bossHealth != null && !bossHealth.gameObject.GetComponent<BossController>().isDefending)
+            {
+                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
+                bossHealth.TakeDamage(attackDamage);
+            }
+        }
+
+        // Sử dụng Animation Event thay vì Coroutine
+        // Animation Event sẽ gọi OnAttackComplete khi animation kết thúc
     }
 
     // Thêm phương thức này để gọi từ Animation Event
@@ -377,8 +424,9 @@ public class PlayerMovement : MonoBehaviour
     private void CheckGrounded()
     {
         // Chỉ cập nhật trạng thái isGrounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || currentBoat != null;
     }
+
 
     // Vẽ Gizmos để debug tầm đánh
     private void OnDrawGizmosSelected()

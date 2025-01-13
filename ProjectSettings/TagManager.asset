@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - Tiger
+  - boat
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - Player
   - Enemy
   - NPC
-  - 
+  - Boss
   - 
   - 
   - 

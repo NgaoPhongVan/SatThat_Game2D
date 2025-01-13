@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
     public event System.Action OnInventoryChanged;
 
     private const string HEALTH_POTION = "Vật phẩm hồi máu";
+    private const string MANA_POTION = "Vật phẩm hồi mana";
 
     private void Awake()
     {
@@ -85,6 +86,50 @@ public class InventoryManager : MonoBehaviour
     public int GetHealthPotionCount()
     {
         return itemCounts.ContainsKey(HEALTH_POTION) ? itemCounts[HEALTH_POTION] : 0;
+    }
+
+    public void AddManaPotion()
+    {
+        // Nếu item chưa có trong danh sách, thêm vào
+        if (!items.Contains(MANA_POTION))
+        {
+            items.Add(MANA_POTION);
+        }
+
+        // Tăng số lượng
+        if (!itemCounts.ContainsKey(MANA_POTION))
+        {
+            itemCounts[MANA_POTION] = 0;
+        }
+        itemCounts[MANA_POTION]++;
+
+        OnInventoryChanged?.Invoke();
+        Debug.Log($"Added health potion. Current count: {itemCounts[MANA_POTION]}");
+    }
+
+    public bool UseManaPotion()
+    {
+        if (itemCounts.ContainsKey(MANA_POTION) && itemCounts[MANA_POTION] > 0)
+        {
+            itemCounts[MANA_POTION]--;
+            Debug.Log($"Used mana potion. Remaining: {itemCounts[MANA_POTION]}");
+
+            // Chỉ xóa khỏi danh sách items khi số lượng = 0
+            if (itemCounts[MANA_POTION] == 0)
+            {
+                items.Remove(MANA_POTION);
+                itemCounts.Remove(MANA_POTION);
+            }
+
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
+    public int GetManaPotionCount()
+    {
+        return itemCounts.ContainsKey(MANA_POTION) ? itemCounts[MANA_POTION] : 0;
     }
 
     public void AddItem(string itemName)

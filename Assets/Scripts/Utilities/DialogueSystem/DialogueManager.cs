@@ -25,6 +25,8 @@ public class DialogueManager : MonoBehaviour
     public delegate void DialogueEndCallback();
     public event DialogueEndCallback OnDialogueEnd;
 
+    public bool isCompletedDialouge = false;
+
     private void Start()
     {
         dialogueLines = new Queue<Dialogue.DialogLine>();
@@ -89,6 +91,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueUI.SetActive(false);
         isDialogueActive = false;
+        isCompletedDialouge = true;
         Debug.Log("Dialogue ended.");
         OnDialogueEnd?.Invoke();
     }

@@ -8,8 +8,10 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private TMP_Text itemListText;
     private PlayerMovement player;
     private HealthSystem playerHealth;
+    private ManaSystem playerMana;
     private Animator playerAnimator;
     private bool isHealing = false;
+    private bool isManaRecovery = false;
 
     private void Start()
     {
@@ -22,6 +24,7 @@ public class InventoryUI : MonoBehaviour
         {
             playerHealth = player.GetComponent<HealthSystem>();
             playerAnimator = player.GetComponent<Animator>();
+            playerMana = player.GetComponent<ManaSystem>();
         }
     }
 
@@ -36,6 +39,11 @@ public class InventoryUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && !isHealing)
         {
             TryUseHealthPotion();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !isManaRecovery)
+        {
+            TryUseManaPotion();
         }
     }
 
@@ -78,6 +86,45 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    private void TryUseManaPotion()
+    {
+        // Kiểm tra có vật phẩm không
+        if (InventoryManager.Instance.GetManaPotionCount() <= 0)
+        {
+            PickupTextManager.Instance.ShowPickupText("Bạn không còn vật phẩm hồi mana");
+            return;
+        }
+
+        // Bắt đầu hồi máu
+        StartCoroutine(ManaRecoverySequence());
+    }
+
+    private IEnumerator ManaRecoverySequence()
+    {
+        if (playerAnimator != null && playerHealth != null)
+        {
+            // Kích hoạt animation healing
+            playerAnimator.SetTrigger("manaRecovering");
+
+            // Đợi animation hoàn thành (điều chỉnh thời gian phù hợp với độ dài animation)
+            float manaRecoveryDuration = 0.55f; // Độ dài của animation healing
+            yield return new WaitForSeconds(manaRecoveryDuration);
+
+            // Hồi máu và trừ vật phẩm
+            if (InventoryManager.Instance.UseManaPotion())
+            {
+                float maxMana = 50f;
+                float manaAmount = maxMana * 0.2f;
+                playerMana.ManaBonus(manaAmount);
+            }
+
+            // Đảm bảo isHealing được reset
+            if (player != null)
+            {
+                player.OnHealingComplete();
+            }
+        }
+    }
 
     private void UpdateItemList()
     {

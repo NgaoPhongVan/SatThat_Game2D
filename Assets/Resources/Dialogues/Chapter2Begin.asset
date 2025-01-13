@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
+  m_Name: Chapter2Begin
+  m_EditorClassIdentifier: 
+  lines:
+  - characterName: "Ng\u1ECDc "
+    text: "C\u1EA3 \u0111\u1EDDi ta ch\u1EC9 bi\u1EBFt s\u1ED1ng trong y\xEAn b\xECnh.
+      Nh\u01B0ng th\u1EBF gi\u1EDBi n\xE0y kh\xF4ng cho ph\xE9p k\u1EBB y\u1EBFu
+      t\u1ED3n t\u1EA1i. N\u1EBFu ta mu\u1ED1n b\u1EA3o v\u1EC7 nh\u1EEFng ng\u01B0\u1EDDi
+      th\xE2n y\xEAu v\xE0 tr\u1EA3 th\xF9 cho , ta ph\u1EA3i tr\u1EDF n\xEAn m\u1EA1nh
+      h\u01A1n. Kh\xF4ng c\xF2n ch\u1EA7n ch\u1EEB \u0111\u01B0\u1EE3c n\u1EEFa,
+      ta s\u1EBD b\u1EAFt \u0111\u1EA7u t\u1EEB h\xF4m nay..."
+    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}

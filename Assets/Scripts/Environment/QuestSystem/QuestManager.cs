@@ -25,7 +25,10 @@ namespace QuestSystem
            "forge_quest",           // Nhiệm vụ rèn kiếm
            "water_forge_quest",     // Nhiệm vụ tôi luyện kiếm
            "Clear_EnemyPatrol",
-           "Hide_Enemy"
+           "Hide_Enemy",
+           "Rescue_TrucLam",
+           "Destroy_BossTiger",
+           "BreakIn_Barracks"
         };
 
         private void Awake()
@@ -80,6 +83,30 @@ namespace QuestSystem
             );
             HideEnemy.questType = QuestType.MainQuest;
             allQuests.Add(HideEnemy.questId, HideEnemy);
+
+            Quest RescueTrucLam = new Quest(
+                "Rescue_TrucLam",
+                "Giải cứu Trúc Lâm khỏi đám cướp",
+                "Tìm và tiêu diệt toàn bộ toán cướp."
+            );
+            RescueTrucLam.questType = QuestType.MainQuest;
+            allQuests.Add(RescueTrucLam.questId, RescueTrucLam);
+
+            Quest DestroyBossTiger = new Quest(
+                "Destroy_BossTiger",
+                "Tiêu diệt Hổ Xám",
+                "Tìm và tiêu diệt Hổ Xám - Chúa tể núi rừng."
+            );
+            DestroyBossTiger.questType = QuestType.MainQuest;
+            allQuests.Add(DestroyBossTiger.questId, DestroyBossTiger);
+
+            Quest BreakInBarracks = new Quest(
+                "BreakIn_Barracks",
+                "Đột nhập doanh trại địch",
+                "Đột nhập doanh trại và tiêu diệt Đội Trường Quân Nguyên Mông."
+            );
+            BreakInBarracks.questType = QuestType.MainQuest;
+            allQuests.Add(BreakInBarracks.questId, BreakInBarracks);
         }
 
         // Kiểm tra xem một nhiệm vụ có thể bắt đầu hay không
