@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         if (isHit) return;
         if (isHealing) return;
         CheckGrounded();
+        
         HandleBlock();
 
         // Chỉ xử lý movement và attack nếu không đang block
@@ -304,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
     {
         verticalVelocity = rb.velocity.y;
         bool wasGrounded = isGrounded;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || currentBoat != null;
 
         // Kiểm tra trạng thái
         if (isGrounded)
@@ -343,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
             currentBoat = other.transform;
             transform.SetParent(currentBoat);
             isGrounded = true;
-
+            HandleJumpAnimation();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -423,7 +424,7 @@ public class PlayerMovement : MonoBehaviour
     private void CheckGrounded()
     {
         // Chỉ cập nhật trạng thái isGrounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || currentBoat != null;
     }
 
 

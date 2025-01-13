@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class BossController : MonoBehaviour
@@ -97,7 +98,7 @@ public class BossController : MonoBehaviour
 
     private void GenerateEnemies()
     {
-        if (isGenerated) return;
+        if (isGenerated || isDeath) return;
         isGenerated = true;
         InvokeRepeating("InitEnemies", 0, 10);
     }
@@ -319,8 +320,12 @@ public class BossController : MonoBehaviour
     }
     private IEnumerator OnEndDeath()
     {
+        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
         yield return new WaitForSeconds(2f); // Chờ 2 giây
-        Destroy(gameObject); // Hủy đối tượng
+        SceneManager.LoadScene(0); // Load
     }
 
     IEnumerator RecoverFromHit()

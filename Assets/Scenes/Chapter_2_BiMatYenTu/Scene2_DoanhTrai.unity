@@ -7243,7 +7243,7 @@ MonoBehaviour:
   attack1Damage: 15
   attackAirDamage: 20
   specialAttackCooldown: 3
-  nextSceneName: Scene1_ChuanBiTranDia
+  nextSceneName: Scene1_KhieuChienBoss
   sceneTransitionDelay: 2
 --- !u!114 &584305811
 MonoBehaviour:
@@ -7258,6 +7258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 350
+  currentHealth: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -27757,6 +27758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -64,7 +64,7 @@ public class PatrolBoat : MonoBehaviour
     public IEnumerator SetBoatColliderable(bool isEnable)
     {
         if (!gameObject.activeSelf) { yield break; }
-        yield return new WaitForSeconds(isEnable ? 0.25f : 0);
+        yield return new WaitForSeconds(isEnable ? 0.15f : 0);
         var boats = GameObject.FindGameObjectsWithTag("boat");
         foreach (var boat in boats)
         {

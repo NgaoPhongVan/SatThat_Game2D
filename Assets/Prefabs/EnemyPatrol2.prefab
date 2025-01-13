@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6677820841606346205}
   - component: {fileID: 1787494062875117065}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: HealthBarEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,9 +65,9 @@ GameObject:
   - component: {fileID: 6889020182164246322}
   - component: {fileID: 4312096727451678112}
   - component: {fileID: 489743406287026428}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemyPatrol2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 1969585409173161367}
   - component: {fileID: 4682185621648383197}
   - component: {fileID: 5716196941881345301}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 7058278192988852248}
   - component: {fileID: 8894404450931583437}
   - component: {fileID: 8903463512510388189}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 1717427279334298010}
   - component: {fileID: 625238163046198530}
   - component: {fileID: 5419107554227373286}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: FillImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
