@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private Transform groundCheck;
+    public float checkDistance = 0.1f;
 
     [Header("Attack Settings")]
     [SerializeField] private float attackDamage = 20f;
@@ -91,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
         CheckGrounded();
         HandleBlock();
-
+        HanlePush();
         // Chỉ xử lý movement và attack nếu không đang block
         if (!isBlocking)
         {
@@ -565,6 +566,39 @@ public class PlayerMovement : MonoBehaviour
         isBuff = false;
         animator.SetBool("isBuff", false);
         buffCoroutine = null; // Reset lại Coroutine để có thể kích hoạt buff lại
+    }
+
+
+    private void HanlePush()
+    {
+        //Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        //Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
+
+        //// Kiểm tra OverlapCircle
+        //Collider2D hit = Physics2D.OverlapCircle(checkPosition, groundCheckRadius, groundLayer);
+
+        Vector2 direction = facingRight ? Vector2.right : Vector2.left;
+
+        // Tính vị trí kiểm tra phía trước nhân vật
+        Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
+
+        // Kiểm tra OverlapCircle
+        Collider2D hit = Physics2D.OverlapCircle(checkPosition, 0.1f, groundLayer);
+
+        if (hit != null)
+        {
+            Debug.Log("Có Ground phía trước!");
+            animator.SetBool("isPushing", true);
+            animator.SetTrigger("push");
+        }
+        else
+        {
+            Debug.Log("Không có Ground phía trước!");
+        }
+
+        // Debug Circle để kiểm tra trong Scene
+        Debug.DrawLine(transform.position, checkPosition, Color.blue);
+        Debug.DrawRay(checkPosition, Vector3.up * 0.1f, Color.cyan);
     }
 
 }

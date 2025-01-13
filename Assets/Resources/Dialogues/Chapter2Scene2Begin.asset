@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09a157970672af643b0a768ab9316bb4, type: 3}
-  m_Name: Rung1
+  m_Name: Chapter2Scene2Begin
   m_EditorClassIdentifier: 
   lines:
-  - characterName: "Ng\u1ECDc"
-    text: ...
-    characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
   - characterName: "Tr\xFAc L\xE2m"
-    text: "(ti\u1EBFng h\xE9t):\n\"Gi\xFAp... c\u1EE9u t\xF4i v\u1EDBi!\""
+    text: "Ch\xFAng ta \u0111\xE3 \u0111\u1EBFn g\u1EA7n doanh tr\u1EA1i r\u1ED3i.
+      \u0110\xE2y l\xE0 l\xFAc th\u1EED th\xE1ch th\u1EF1c s\u1EF1 b\u1EAFt \u0111\u1EA7u."
     characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}
   - characterName: "Ng\u1ECDc"
-    text: "\"Tr\xFAc L\xE2m?! Kh\xF4ng th\u1EC3 n\xE0o...\t\xD4ng \u1EA5y g\u1EB7p
-      nguy hi\u1EC3m!\""
+    text: "Ch\xFAng ta s\u1EBD c\xF9ng nhau \u0111\u1ED9t k\xEDch doanh tr\u1EA1i
+      \u0111\u1ECBch."
     characterSprite: {fileID: 21300000, guid: 21425693e22adb34a8ada297641bcb62, type: 3}
+  - characterName: "Tr\xFAc L\xE2m"
+    text: "Kh\xF4ng!...    H\xE3y \u0111\u1EC3 ta \u0111i tr\u01B0\u1EDBc m\u1EDF
+      \u0111\u01B0\u1EDDng cho con!!!"
+    characterSprite: {fileID: 21300000, guid: 3581c50598ac5cc46925b9b556444f75, type: 3}

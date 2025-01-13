@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 6704108363268878684}
   fillImage: {fileID: 4954351890879167720}
-  manaSystem: {fileID: 0}
+  manaSystem: {fileID: 8596804361035489551}
   updateSpeed: 5
   useSmoothing: 1
 --- !u!1001 &4529550281831322007

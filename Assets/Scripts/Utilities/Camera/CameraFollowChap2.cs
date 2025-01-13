@@ -14,13 +14,16 @@ public class CameraChap2Controller : MonoBehaviour
     [SerializeField] private Transform BossTiger;
     [SerializeField] private Transform PointSetUpCamera;
     [SerializeField] private Transform TrucLam;
+    [SerializeField] private TrucLamController trucLamController;
 
     [Header("Position Constraints")]
     [SerializeField] private float minX = 0f;
     [SerializeField] private float maxX = 108f;
 
     [SerializeField] private DialogueManager dialogueManager; // Tham chi?u ??n DialogueManager
-    [SerializeField] private string text;
+    private PlayerMovement playerMovement;
+
+    [SerializeField] private int scene = 1;
     // Start is called before the first frame update
     private bool dialogueTriggered = false; // Tr?ng thái ?ã g?i h?i tho?i
     void Update()
@@ -31,11 +34,12 @@ public class CameraChap2Controller : MonoBehaviour
             //TriggerDialogue();
             StartCoroutine(DelayEndGame());
             //QuestSystem.QuestManager.Instance.StartQuest("forge_quest");
+            dialogueManager.OnDialogueEnd += OnDialogueCompleted;
         }
     }
     void TriggerDialogue()
     {
-        Dialogue dialogue = Resources.Load<Dialogue>("Dialogues/Chapter2Begin");
+        Dialogue dialogue = scene==1 ? Resources.Load<Dialogue>("Dialogues/Chapter2Begin") : Resources.Load<Dialogue>("Dialogues/Chapter2Scene2Begin");
 
         if (dialogue == null)
         {
@@ -48,7 +52,7 @@ public class CameraChap2Controller : MonoBehaviour
             Debug.LogError("DialogueManager is not assigned!");
             return;
         }
-
+        playerMovement.enabled = false;
         dialogueManager.StartDialogue(dialogue); // B?t ??u h?i tho?i
     }
 
@@ -57,6 +61,8 @@ public class CameraChap2Controller : MonoBehaviour
     private void Start()
     {
         target = Player;
+        playerMovement = Player.GetComponent<PlayerMovement>();
+        trucLamController = TrucLam.GetComponent<TrucLamController>();
     }
 
 
@@ -100,6 +106,22 @@ public class CameraChap2Controller : MonoBehaviour
         Camera camera = Camera.main;
         camera.orthographicSize = newSize;
     }
-    
+
+    private void OnDialogueCompleted()
+    {
+        if (dialogueManager.isCompletedDialouge == true)
+        {
+            if(scene == 1)
+            {
+                playerMovement.enabled = true;
+            }
+            else
+            {
+                trucLamController.ActiveTrucLam();
+                playerMovement.enabled = true;
+            }
+        }
+    }
+
 }
 

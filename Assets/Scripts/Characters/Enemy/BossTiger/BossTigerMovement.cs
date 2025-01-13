@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TigerBossController : MonoBehaviour
@@ -27,6 +28,7 @@ public class TigerBossController : MonoBehaviour
     //Active
     private bool hasReachedActivePoint = false;
     private bool isActived = false;
+    private bool isPhase2 = false;
 
     private void Start()
     {
@@ -69,6 +71,7 @@ public class TigerBossController : MonoBehaviour
         Flip();
         if (isActived)
         {
+            Phase2ForBoss();
             MoveToActivePoint();
 
 
@@ -111,8 +114,27 @@ public class TigerBossController : MonoBehaviour
             finalCameraFollow.ChangeSizeCamera();
         }
         animator.SetTrigger("IsDead");
+        StartCoroutine(EndChapter());
         Debug.Log("Tiger Boss is dead.");
     }
+
+    private void EndChapterAndChangeDuty()
+    {
+        if (QuestSystem.QuestManager.Instance.CanStartQuest("Destroy_BossTiger"))
+        {
+
+            QuestSystem.QuestManager.Instance.CompleteQuest("Destroy_BossTiger");
+            QuestSystem.QuestManager.Instance.StartQuest("BreakIn_Barracks");
+            SceneManager.LoadScene("Scene2_DoanhTrai");
+        }
+        else
+        {
+            PickupTextManager.Instance.ShowPickupText("B?n c?n hoàn thành nhi?m v? rèn ki?m tr??c!");
+            Debug.Log("B?n c?n hoàn thành nhi?m v? rèn ki?m tr??c!");
+        }
+    }
+
+    IEnumerator EndChapter() { yield return new WaitForSeconds(1f); EndChapterAndChangeDuty(); }
 
     [SerializeField] private float attackDamage = 50f; // Sát thương của Boss
     [SerializeField] private Transform attackPoint; // Điểm tấn công
@@ -231,12 +253,11 @@ public class TigerBossController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    private void Phase2ForBoss()
     {
-        Debug.Log("Boss took damage: " + damage);  // Log sát thương nhận vào
-        if (healthSystem != null)
+        if(healthSystem.GetHealthPercentage() <= 50f)
         {
-            healthSystem.TakeDamage(damage);
+            isPhase2 = true;
         }
     }
 
