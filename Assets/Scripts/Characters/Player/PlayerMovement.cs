@@ -244,35 +244,7 @@ public class PlayerMovement : MonoBehaviour
         isHealing = false;
     }
 
-    private void HandleDeath()
-    {
-        if (isDead) return;
-
-        isDead = true;
-        animator.SetTrigger("death");
-
-        // Vô hiệu hóa các thao tác điều khiển
-        rb.velocity = Vector2.zero;
-        this.enabled = false;
-
-        //// Vô hiệu hóa collider
-        //if (GetComponent<Collider2D>() != null)
-        //{
-        //    GetComponent<Collider2D>().enabled = false;
-        //}
-
-        // Đợi animation death kết thúc rồi mới chuyển scene
-        StartCoroutine(ShowGameOverAfterDeath());
-    }
-
-    private System.Collections.IEnumerator ShowGameOverAfterDeath()
-    {
-        // Đợi animation death kết thúc
-        yield return new WaitForSeconds(1f);
-
-        // Load Game Over scene
-        SceneManager.LoadScene("GameOver");
-    }
+    
     // Sửa lại phương thức CanTakeDamage
 
     public bool CanTakeDamage()
@@ -587,11 +559,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void HanlePush()
     {
-        //Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-        //Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
-
-        //// Kiểm tra OverlapCircle
-        //Collider2D hit = Physics2D.OverlapCircle(checkPosition, groundCheckRadius, groundLayer);
 
         Vector2 direction = facingRight ? Vector2.right : Vector2.left;
 
