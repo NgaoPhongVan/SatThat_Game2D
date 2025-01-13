@@ -30,16 +30,6 @@ public class ForgeMiniGame : MonoBehaviour
         //QuestSystem.QuestManager.Instance.StartQuest("forge_quest"); // Sử dụng quest ID
     }
 
-    private void OnDestroy()
-    {
-        // Đảm bảo hủy đăng ký sự kiện khi object bị hủy
-        if (dialogueManager != null)
-        {
-            dialogueManager.OnDialogueEnd -= StartMiniGame;
-            dialogueManager.OnDialogueEnd -= EndGame;
-        }
-    }
-
     private void Update()
     {
         if (!isPlaying)
@@ -205,5 +195,15 @@ public class ForgeMiniGame : MonoBehaviour
     private IEnumerator DelayDialog()
     {
         yield return new WaitForSeconds(2f);
+    }
+
+    private void OnDestroy()
+    {
+        // Đảm bảo hủy đăng ký sự kiện khi object bị hủy
+        if (dialogueManager != null)
+        {
+            dialogueManager.OnDialogueEnd -= StartMiniGame;
+            dialogueManager.OnDialogueEnd -= EndGame;
+        }
     }
 }

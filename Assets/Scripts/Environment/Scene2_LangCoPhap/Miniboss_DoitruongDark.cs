@@ -125,12 +125,6 @@ public class Miniboss_DoitruongDark : MonoBehaviour
         }
     }
 
-    // Thêm hàm này để debug trong Inspector
-    public bool IsInPhase3()
-    {
-        return phase3Triggered;
-    }
-
     private void EnterPhase2()
     {
         phase2Triggered = true;
@@ -222,14 +216,15 @@ public class Miniboss_DoitruongDark : MonoBehaviour
         rb.velocity = Vector2.up * 10f;
         yield return new WaitForSeconds(0.5f);
 
-        // Tấn công
-        Debug.Log("Air Attack - Deal Damage");
-        DealDamage(attackAirDamage);
 
         // Rơi xuống
         Debug.Log("Air Attack - Fall Down");
         rb.gravityScale = originalGravity;
         rb.velocity = Vector2.down * 15f;
+
+        // Tấn công
+        Debug.Log("Air Attack - Deal Damage");
+        DealDamage(attackAirDamage);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -253,12 +248,12 @@ public class Miniboss_DoitruongDark : MonoBehaviour
     public void OnAttackAirDamage()
     {
         Debug.Log("Animation Event: AttackAir Damage");
-        DealDamage(attackAirDamage);
     }
 
     public void OnAttackAirEnd()
     {
         Debug.Log("Animation Event: AttackAir End");
+        DealDamage(attackAirDamage);
         rb.gravityScale = 1;
         rb.velocity = Vector2.zero;
     }
@@ -388,7 +383,7 @@ public class Miniboss_DoitruongDark : MonoBehaviour
     {
         Debug.Log("Returning to patrol");
         isChasing = false;
-        isTargetingNPC = false;
+        //isTargetingNPC = false;
         Vector2 returnDirection = (startPosition - (Vector2)transform.position).normalized;
         rb.velocity = returnDirection * patrolSpeed;
         UpdateFacingDirection(returnDirection.x > 0);
@@ -401,8 +396,6 @@ public class Miniboss_DoitruongDark : MonoBehaviour
         }
     }
 
-
-    // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
@@ -492,12 +485,6 @@ public class Miniboss_DoitruongDark : MonoBehaviour
                 Debug.Log("Player detected!");
             }
         }
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()

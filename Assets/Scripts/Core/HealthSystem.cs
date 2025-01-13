@@ -32,8 +32,6 @@ public class HealthSystem : MonoBehaviour
         {
             OnDeath?.Invoke();
         }
-
-        Debug.Log($"Health set to {healthPercentage}% ({currentHealth}/{maxHealth})");
     }
 
     public void TakeDamage(float damage)

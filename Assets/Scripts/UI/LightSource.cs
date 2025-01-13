@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightSource : MonoBehaviour
 {
@@ -9,9 +9,9 @@ public class LightSource : MonoBehaviour
     [SerializeField] private float damageRate = 0.5f;
 
     [Header("Flicker Effect")]
-    [SerializeField] private bool shouldFlicker = false;
-    [SerializeField] private float flickerSpeed = 5f;
-    [SerializeField] private float flickerIntensity = 0.2f;
+    [SerializeField] private bool shouldFlicker = false;     // Bật/tắt hiệu ứng
+    [SerializeField] private float flickerSpeed = 5f;        // Tốc độ nhấp nháy
+    [SerializeField] private float flickerIntensity = 0.2f;  // Độ mạnh nhấp nháy
 
     private SpriteRenderer lightSprite;
     private float originalAlpha;
@@ -20,15 +20,15 @@ public class LightSource : MonoBehaviour
 
     private void Start()
     {
+        // Lấy component và lưu alpha gốc
         lightSprite = GetComponent<SpriteRenderer>();
         lightCollider = GetComponent<CircleCollider2D>();
-
         if (lightSprite != null)
         {
             originalAlpha = lightSprite.color.a;
         }
 
-        // Setup collider
+        // Thiết lập collider
         if (lightCollider != null)
         {
             lightCollider.radius = radius;
@@ -40,6 +40,7 @@ public class LightSource : MonoBehaviour
     {
         if (shouldFlicker && lightSprite != null)
         {
+            // Tạo hiệu ứng nhấp nháy bằng hàm Sin
             float flicker = Mathf.Sin(Time.time * flickerSpeed) * flickerIntensity;
             Color color = lightSprite.color;
             color.a = originalAlpha + flicker;

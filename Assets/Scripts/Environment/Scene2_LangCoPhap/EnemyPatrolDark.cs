@@ -74,7 +74,7 @@ public class EnemyPatrolDark : MonoBehaviour
         animator.SetBool("isMoving", false);
 
         // Đợi animation hit kết thúc
-        yield return new WaitForSeconds(0.3f); // Điều chỉnh thời gian phù hợp
+        yield return new WaitForSeconds(0.3f);
 
         isHit = false;
 
@@ -247,7 +247,6 @@ public class EnemyPatrolDark : MonoBehaviour
         animator.SetBool("isMoving", true);
     }
 
-    // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
@@ -323,12 +322,6 @@ public class EnemyPatrolDark : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()

@@ -67,7 +67,6 @@ public class InventoryUI : MonoBehaviour
             // Kích hoạt animation healing
             playerAnimator.SetTrigger("healing");
 
-            // Đợi animation hoàn thành (điều chỉnh thời gian phù hợp với độ dài animation)
             float healingDuration = 0.55f; // Độ dài của animation healing
             yield return new WaitForSeconds(healingDuration);
 

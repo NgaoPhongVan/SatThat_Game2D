@@ -12531,9 +12531,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &355152197
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15210,9 +15210,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &462308164
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17590,9 +17590,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &534523319
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21968,9 +21968,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &725787256
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26285,7 +26285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4179799941114270918, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: attackDamage
-      value: 10
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 4179799941114270918, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: enemyLayer.m_Bits
@@ -38687,9 +38687,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1257956621
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -39656,9 +39656,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1284104408
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -42544,9 +42544,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1410078351
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -46065,9 +46065,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1514708896
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -47762,9 +47762,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1576137296
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -50583,9 +50583,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1671497897
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -52122,9 +52122,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1730074706
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -56513,7 +56513,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1231895411, guid: 4059d1a17b412aa4483d05f96d52b890, type: 3}
   m_Color: {r: 0.554717, g: 0.5097117, b: 0.5097117, a: 1}
   m_FlipX: 0
@@ -60057,9 +60057,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &1995447633
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -61374,9 +61374,9 @@ MonoBehaviour:
   isDamaging: 0
   damageAmount: 5
   damageRate: 0.5
-  shouldFlicker: 0
-  flickerSpeed: 5
-  flickerIntensity: 0.2
+  shouldFlicker: 1
+  flickerSpeed: 2.5
+  flickerIntensity: 0.05
 --- !u!212 &2034281514
 SpriteRenderer:
   m_ObjectHideFlags: 0

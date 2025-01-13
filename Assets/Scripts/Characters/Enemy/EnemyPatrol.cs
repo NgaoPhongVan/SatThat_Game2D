@@ -276,7 +276,6 @@ public class EnemyPatrol : MonoBehaviour
         animator.SetBool("isMoving", true);
     }
 
-    // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
@@ -358,12 +357,6 @@ public class EnemyPatrol : MonoBehaviour
                 ReturnToPatrol();
             }
         }
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()
