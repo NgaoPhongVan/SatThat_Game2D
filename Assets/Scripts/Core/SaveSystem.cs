@@ -36,7 +36,6 @@ public class SaveSystem : MonoBehaviour
         {
             formatter.Serialize(stream, saveData);
         }
-        Debug.Log("Game Saved!");
     }
 
     public void LoadGame()
@@ -60,7 +59,6 @@ public class SaveSystem : MonoBehaviour
                     SceneManager.LoadScene(saveData.currentSceneName);
                 }
             }
-            Debug.Log("Game Loaded!");
         }
         else
         {

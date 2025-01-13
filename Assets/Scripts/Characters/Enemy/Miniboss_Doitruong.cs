@@ -289,7 +289,6 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
-
     private void CheckHealth(float healthPercentage)
     {
         CheckPhaseTransition(healthPercentage);
@@ -384,7 +383,7 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
-        private void ReturnToPatrol()
+    private void ReturnToPatrol()
     {
         Debug.Log("Returning to patrol");
         isChasing = false;
@@ -401,8 +400,6 @@ public class Miniboss_Doitruong : MonoBehaviour
         }
     }
 
-
-    // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
@@ -503,12 +500,6 @@ public class Miniboss_Doitruong : MonoBehaviour
                 Debug.Log("Player detected!");
             }
         }
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()

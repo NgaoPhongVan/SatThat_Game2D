@@ -85,37 +85,49 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (!isAttacking)
+        {
+            Move();
+        }
+    }
+
     private void HandleHit()
     {
+        // Chỉ xử lý hit nếu nhân vật chưa chết và không trong trạng thái bất tử
         if (!isDead && !isInvulnerable)
         {
-            isHit = true;
-            isInvulnerable = true;
+            isHit = true;  // Đánh dấu đang trong trạng thái bị đánh
+            isInvulnerable = true;  // Kích hoạt trạng thái bất tử tạm thời
 
-            // Lưu trạng thái block nếu đang block
+            // Lưu trạng thái block để khôi phục sau
             shouldResumeBlock = isBlocking && Input.GetKey(KeyCode.Space);
 
-            // Không set trigger hit nếu đang block
+            // Chỉ chạy animation hit nếu không đang block
             if (!isBlocking)
             {
                 animator.SetTrigger("hit");
             }
-            animator.SetTrigger("hit");
-            StartCoroutine(HitStunCoroutine());
-            StartCoroutine(InvulnerabilityCoroutine());
+
+            // Khởi chạy 2 coroutine xử lý hiệu ứng
+            StartCoroutine(HitStunCoroutine());      // Xử lý thời gian choáng
+            StartCoroutine(InvulnerabilityCoroutine()); // Xử lý thời gian bất tử
         }
     }
 
     private System.Collections.IEnumerator HitStunCoroutine()
     {
+        // Đợi trong thời gian hitStunTime
         yield return new WaitForSeconds(hitStunTime);
-        isHit = false;
 
-        // Khôi phục block nếu vẫn đang giữ Space
+        isHit = false;  // Hết trạng thái bị đánh
+
+        // Nếu người chơi vẫn giữ Space và trước đó đang block
         if (shouldResumeBlock && Input.GetKey(KeyCode.Space))
         {
-            isBlocking = true;
-            animator.SetBool("blocking", true);
+            isBlocking = true;  // Khôi phục trạng thái block
+            animator.SetBool("blocking", true);  // Khôi phục animation block
         }
     }
 
@@ -123,40 +135,64 @@ public class PlayerMovement : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        // Nếu không đang block thì mới chớp nháy
+        // Xử lý khác nhau tùy theo đang block hay không
         if (!isBlocking)
         {
+            // Tạo hiệu ứng nháy bằng cách bật/tắt sprite
             while (elapsedTime < invulnerableTime)
             {
-                //animator.SetTrigger("hit");
-                spriteRenderer.enabled = !spriteRenderer.enabled;
-                yield return new WaitForSeconds(0.1f);
+                spriteRenderer.enabled = !spriteRenderer.enabled;  // Đảo trạng thái hiển thị
+                yield return new WaitForSeconds(0.1f);  // Đợi 0.1s
                 elapsedTime += 0.1f;
             }
-            spriteRenderer.enabled = true;
+            spriteRenderer.enabled = true;  // Đảm bảo sprite hiển thị lại
         }
         else
         {
-            // Nếu đang block thì chỉ đợi thời gian bất tử
+            // Nếu đang block thì chỉ đợi hết thời gian bất tử
             yield return new WaitForSeconds(invulnerableTime);
         }
 
-        isInvulnerable = false;
-    }
-
-    private System.Collections.IEnumerator ResetHitState()
-    {
-        // Đợi animation hit kết thúc
-        yield return new WaitForSeconds(0.5f); // Điều chỉnh thời gian phù hợp với độ dài animation
-        isHit = false;
+        isInvulnerable = false;  // Kết thúc trạng thái bất tử
     }
 
     private void CheckHealth(float healthPercentage)
     {
+        // Kiểm tra nếu máu <= 0 và nhân vật chưa chết
         if (healthPercentage <= 0 && !isDead)
         {
             HandleDeath();
         }
+    }
+
+    private void HandleDeath()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        animator.SetTrigger("death");
+
+        // Vô hiệu hóa các thao tác điều khiển
+        rb.velocity = Vector2.zero;
+        this.enabled = false;
+
+        // Ẩn game UI
+        if (GameUIManager.Instance != null)
+        {
+            GameUIManager.Instance.ShowGameUI(false);
+        }
+
+        // Đợi animation death kết thúc rồi mới chuyển scene
+        StartCoroutine(ShowGameOverAfterDeath());
+    }
+
+    private System.Collections.IEnumerator ShowGameOverAfterDeath()
+    {
+        // Đợi animation death kết thúc
+        yield return new WaitForSeconds(1f);
+
+        // Load Game Over scene
+        SceneManager.LoadScene("GameOver");
     }
 
     // Thêm hàm xử lý animation event
@@ -180,37 +216,6 @@ public class PlayerMovement : MonoBehaviour
         isHealing = false;
     }
 
-    private void HandleDeath()
-    {
-        if (isDead) return;
-
-        isDead = true;
-        animator.SetTrigger("death");
-
-        // Vô hiệu hóa các thao tác điều khiển
-        rb.velocity = Vector2.zero;
-        this.enabled = false;
-
-        //// Vô hiệu hóa collider
-        //if (GetComponent<Collider2D>() != null)
-        //{
-        //    GetComponent<Collider2D>().enabled = false;
-        //}
-
-        // Đợi animation death kết thúc rồi mới chuyển scene
-        StartCoroutine(ShowGameOverAfterDeath());
-    }
-
-    private System.Collections.IEnumerator ShowGameOverAfterDeath()
-    {
-        // Đợi animation death kết thúc
-        yield return new WaitForSeconds(1f);
-
-        // Load Game Over scene
-        SceneManager.LoadScene("GameOver");
-    }
-
-    // Sửa lại phương thức CanTakeDamage
     public bool CanTakeDamage()
     {
         return !isInvulnerable && !isDead && !isHealing;
@@ -242,6 +247,18 @@ public class PlayerMovement : MonoBehaviour
                 Flip();
             }
         }
+    }
+
+    private void Move()
+    {
+        Vector2 moveVelocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        rb.velocity = moveVelocity;
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 
     private void HandleBlock()
@@ -291,7 +308,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isFalling", false);
             animator.SetBool("isGrounded", true);
         }
-        else if (verticalVelocity > 0.1f)
+        else if (verticalVelocity > 0.1f) // Vận tốc dương = đang đi lên
         {
             animator.SetBool("isJumping", true);
             animator.SetBool("isFalling", false);
@@ -329,20 +346,15 @@ public class PlayerMovement : MonoBehaviour
             enemyLayer
         );
 
-        // Debug.Log($"Detected {hitEnemies.Length} enemies in range"); // Debug line
-
         foreach (Collider2D enemy in hitEnemies)
         {
             HealthSystem enemyHealth = enemy.GetComponent<HealthSystem>();
             if (enemyHealth != null)
             {
-                // Debug.Log($"Dealing damage to {enemy.name}"); // Debug line
+                // Debug.Log($"Dealing damage to {enemy.name}");
                 enemyHealth.TakeDamage(attackDamage);
             }
         }
-
-        // Sử dụng Animation Event thay vì Coroutine
-        // Animation Event sẽ gọi OnAttackComplete khi animation kết thúc
     }
 
     // Thêm phương thức này để gọi từ Animation Event
@@ -350,27 +362,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = false;
         animator.SetTrigger("attackComplete");
-    }
-
-    private System.Collections.IEnumerator ResetAttack()
-    {
-        // Đợi animation attack kết thúc (điều chỉnh thời gian phù hợp với độ dài animation)
-        yield return new WaitForSeconds(0.5f);
-        isAttacking = false;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!isAttacking)
-        {
-            Move();
-        }
-    }
-
-    private void Move()
-    {
-        Vector2 moveVelocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-        rb.velocity = moveVelocity;
     }
 
     private void Jump()
@@ -387,12 +378,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Chỉ cập nhật trạng thái isGrounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     // Vẽ Gizmos để debug tầm đánh

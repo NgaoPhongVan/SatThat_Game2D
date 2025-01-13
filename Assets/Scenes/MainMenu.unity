@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 202048124}
   - component: {fileID: 202048123}
   - component: {fileID: 202048122}
+  - component: {fileID: 202048127}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -206,6 +207,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202048127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202048121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 010949dd7d842f3418ce5e44a4140ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarUI: {fileID: 5601909403146366956, guid: d890475ec569950498a4ff2279928dbb, type: 3}
+  questUI: {fileID: 2644076865645608436, guid: cc9fe63a693ab7c4b8541d8a0f5eb58c, type: 3}
+  inventoryUI: {fileID: 3769498905401275016, guid: 74d14a677372b61468360dc2b10e144c, type: 3}
 --- !u!1 &300778632
 GameObject:
   m_ObjectHideFlags: 0

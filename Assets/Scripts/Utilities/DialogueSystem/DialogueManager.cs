@@ -45,39 +45,43 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        dialogueUI.SetActive(true);
-        isDialogueActive = true;
-        dialogueLines.Clear();
+        dialogueUI.SetActive(true);    // Hiển thị UI hội thoại
+        isDialogueActive = true;       // Đánh dấu đang trong hội thoại
+        dialogueLines.Clear();         // Xóa các dòng hội thoại cũ
 
+        // Thêm từng dòng hội thoại vào queue
         foreach (var line in dialogue.lines)
         {
             dialogueLines.Enqueue(line);
         }
 
-        DisplayNextSentence();
+        DisplayNextSentence();         // Hiển thị câu đầu tiên
     }
 
     public void DisplayNextSentence()
     {
         if (isTyping)
         {
-            CompleteCurrentLine();
+            CompleteCurrentLine();  
             return;
         }
 
         if (dialogueLines.Count == 0)
         {
-            EndDialogue();
+            EndDialogue();  
             return;
         }
 
+        // Lấy và hiển thị dòng tiếp theo
         var currentLine = dialogueLines.Dequeue();
-        nameText.text = currentLine.characterName;
-        characterImage.sprite = currentLine.characterSprite;
+        nameText.text = currentLine.characterName;           // Cập nhật tên
+        characterImage.sprite = currentLine.characterSprite; // Cập nhật hình ảnh
 
+        // Dừng hiệu ứng đánh chữ cũ nếu có
         if (typewriterCoroutine != null)
             StopCoroutine(typewriterCoroutine);
 
+        // Bắt đầu hiệu ứng đánh chữ mới
         typewriterCoroutine = StartCoroutine(TypeText(currentLine.text));
     }
 

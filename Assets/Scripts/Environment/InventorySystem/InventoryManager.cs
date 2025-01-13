@@ -32,7 +32,6 @@ public class InventoryManager : MonoBehaviour
 
     public void LoadInventoryData(List<string> savedItems, Dictionary<string, int> savedCounts)
     {
-        // Clear current inventory
         InitializeInventory();
 
         // Load saved data
@@ -62,7 +61,6 @@ public class InventoryManager : MonoBehaviour
         itemCounts[HEALTH_POTION]++;
 
         OnInventoryChanged?.Invoke();
-        Debug.Log($"Added health potion. Current count: {itemCounts[HEALTH_POTION]}");
     }
 
     public bool UseHealthPotion()
@@ -70,7 +68,6 @@ public class InventoryManager : MonoBehaviour
         if (itemCounts.ContainsKey(HEALTH_POTION) && itemCounts[HEALTH_POTION] > 0)
         {
             itemCounts[HEALTH_POTION]--;
-            Debug.Log($"Used health potion. Remaining: {itemCounts[HEALTH_POTION]}");
 
             // Chỉ xóa khỏi danh sách items khi số lượng = 0
             if (itemCounts[HEALTH_POTION] == 0)

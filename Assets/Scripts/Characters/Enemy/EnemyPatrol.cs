@@ -247,7 +247,6 @@ public class EnemyPatrol : MonoBehaviour
         animator.SetBool("isMoving", true);
     }
 
-    // Thay thế hàm Flip() bằng hàm mới này
     private void UpdateFacingDirection(bool shouldFaceRight)
     {
         if (facingRight != shouldFaceRight)
@@ -284,7 +283,7 @@ public class EnemyPatrol : MonoBehaviour
 
         // Debug để kiểm tra khoảng cách
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        Debug.Log($"Distance to player: {distanceToPlayer}");
+        //Debug.Log($"Distance to player: {distanceToPlayer}");
 
         // Kiểm tra player trong tầm phát hiện bằng cả Raycast và khoảng cách
         RaycastHit2D hit = Physics2D.Raycast(
@@ -329,12 +328,6 @@ public class EnemyPatrol : MonoBehaviour
                 ReturnToPatrol();
             }
         }
-    }
-
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
     }
 
     private void OnDrawGizmos()

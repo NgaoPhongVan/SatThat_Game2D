@@ -4,6 +4,7 @@ using UnityEngine;
 namespace QuestSystem
 {
     using System.Collections.Generic;
+    using UnityEditor.VersionControl;
     using UnityEngine;
 
     public class QuestManager : MonoBehaviour
@@ -11,12 +12,12 @@ namespace QuestSystem
         public static QuestManager Instance { get; private set; }
         private Dictionary<string, Quest> allQuests = new Dictionary<string, Quest>();
         private List<Quest> activeQuests = new List<Quest>();
-        private HashSet<string> completedQuestIds = new HashSet<string>();
+        private HashSet<string> completedQuestIds = new HashSet<string>(); //Sử dụng HashSet để tránh trùng lặp
 
-        public event System.Action<Quest> OnQuestStarted;
-        public event System.Action<Quest> OnQuestCompleted;
-        public event System.Action<Quest> OnQuestFailed;
-        public event System.Action<Quest> OnQuestUpdated;
+        public event System.Action<Quest> OnQuestStarted;    // Khi bắt đầu quest
+        public event System.Action<Quest> OnQuestCompleted;  // Khi hoàn thành quest
+        public event System.Action<Quest> OnQuestFailed;     // Khi thất bại quest
+        public event System.Action<Quest> OnQuestUpdated;    // Khi cập nhật tiến độ quest
 
         // Định nghĩa thứ tự các nhiệm vụ
         private readonly string[] questSequence = new string[]
@@ -115,12 +116,7 @@ namespace QuestSystem
         // Hoàn thành một nhiệm vụ
         public void CompleteQuest(string questId)
         {
-            Debug.Log($"Attempting to complete quest: {questId}");
-            if (!allQuests.ContainsKey(questId))
-            {
-                Debug.LogError($"Quest {questId} not found in allQuests dictionary");
-                return;
-            }
+            if (!allQuests.ContainsKey(questId)) return;
 
             Quest quest = allQuests[questId];
             quest.state = QuestState.Completed;
@@ -128,14 +124,7 @@ namespace QuestSystem
             activeQuests.Remove(quest);
             OnQuestCompleted?.Invoke(quest);
 
-            Debug.Log($"Completed quest: {quest.questName}");
-
-            // Debug current quest state
-            Debug.Log("Current completed quests:");
-            foreach (var completedId in completedQuestIds)
-            {
-                Debug.Log($"- {completedId}");
-            }
+            //Debug.Log($"Completed quest: {quest.questName}");
         }
 
         // Thất bại một nhiệm vụ
@@ -147,7 +136,7 @@ namespace QuestSystem
             quest.state = QuestState.Failed;
             activeQuests.Remove(quest);
             OnQuestFailed?.Invoke(quest);
-            Debug.Log($"Failed quest: {quest.questName}");
+            //Debug.Log($"Failed quest: {quest.questName}");
         }
 
         // Lấy nhiệm vụ chính hiện tại
@@ -214,13 +203,11 @@ namespace QuestSystem
             completedQuestIds.Clear();
             activeQuests.Clear();
 
-            // Reset all quests to NotStarted state
             foreach (var quest in allQuests.Values)
             {
                 quest.state = QuestState.NotStarted;
             }
 
-            // Start the first quest if available
             if (questSequence.Length > 0)
             {
                 StartQuest(questSequence[0]);
