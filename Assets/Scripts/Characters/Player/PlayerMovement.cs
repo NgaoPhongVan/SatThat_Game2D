@@ -566,7 +566,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
 
         // Kiểm tra OverlapCircle
-        Collider2D hit = Physics2D.OverlapCircle(checkPosition, 0.1f, groundLayer);
+        Collider2D hit = Physics2D.OverlapCircle(checkPosition, groundCheckRadius, groundLayer);
 
         if (hit != null)
         {
@@ -577,7 +577,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Debug.Log("Không có Ground phía trước!");
+            animator.SetBool("isPushing", false);
         }
+
+        // Debug Circle để kiểm tra trong Scene
+        Debug.DrawLine(transform.position, checkPosition, Color.blue);
+        Debug.DrawRay(checkPosition, Vector3.up * groundCheckRadius, Color.cyan);
 
     }
 
