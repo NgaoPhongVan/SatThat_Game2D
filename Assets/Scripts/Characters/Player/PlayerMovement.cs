@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
@@ -41,8 +42,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isBlocking = false;
     private bool shouldResumeBlock = false;
     private bool isHealing = false;
-
-
+    private ManaSystem manaSystem;
+    private bool outOfMana = false;
+    private bool isBuff = false;
+    private float currentMana;
+    private bool isManaRecovering = false;
+    private Coroutine buffCoroutine;
+    public float checkDistance = 0.1f;
     private SpriteRenderer spriteRenderer;
     private Transform currentBoat;
     public LayerMask boatMask;
