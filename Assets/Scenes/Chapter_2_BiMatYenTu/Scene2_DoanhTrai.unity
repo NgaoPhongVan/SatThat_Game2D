@@ -1160,7 +1160,7 @@ PrefabInstance:
     - target: {fileID: 994789026376004358, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: manaSystem
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 82588154}
     - target: {fileID: 1496306397535460028, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.07
@@ -1215,6 +1215,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1496306397535460028, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
   m_PrefabInstance: {fileID: 82588152}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &82588154 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8596804361035489551, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
+  m_PrefabInstance: {fileID: 82588152}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb34b80eb859e640815b60f8c35818a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &90313224
 GameObject:
   m_ObjectHideFlags: 0

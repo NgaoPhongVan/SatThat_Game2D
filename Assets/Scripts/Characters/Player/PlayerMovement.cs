@@ -447,4 +447,108 @@ public class PlayerMovement : MonoBehaviour
             healthSystem.OnHit.RemoveListener(HandleHit);
         }
     }
+
+
+
+
+    // Xu ly su dung mana
+
+    private void CheckMana(float manaPercentage)
+    {
+        if (manaPercentage <= 0 )
+        {
+            OutOfMana();
+        }
+    }
+
+    // Thêm hàm xử lý animation event
+    public void OnManaRecoveringStart()
+    {
+        isManaRecovering = true;
+        rb.velocity = Vector2.zero;
+    }
+
+    public void OnManaRecoveringComplete()
+    {
+        isManaRecovering = false;
+        animator.SetBool("isManaRecovering", false);
+    }
+
+    private void OutOfMana()
+    {
+        if (isDead) return;
+
+        outOfMana = true;
+    }
+
+    private void HandleUseBuff()
+    {
+        if (!isBuff && currentMana >= 20f )
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UseBuff();
+            }
+            
+        }
+    }
+
+    private void UseBuff()
+    {
+        if (isDead || isBuff) return; // Kiểm tra nếu nhân vật đã chết hoặc đang buff
+
+        //Input.GetKeyDown(KeyCode.E);
+
+        isBuff = true;
+        animator.SetBool("isBuff", true);
+        manaSystem.UseBuff(20f);
+
+        if (buffCoroutine != null)
+        {
+            StopCoroutine(buffCoroutine); // Dừng bất kỳ buff nào đang chạy trước đó
+        }
+
+        buffCoroutine = StartCoroutine(DisableBuffAfterDuration(3f)); // Chạy buff trong 3 giây
+    }
+
+    private IEnumerator DisableBuffAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration); // Chờ 3 giây
+
+        isBuff = false;
+        animator.SetBool("isBuff", false);
+        buffCoroutine = null; // Reset lại Coroutine để có thể kích hoạt buff lại
+    }
+
+
+    private void HanlePush()
+    {
+
+        Vector2 direction = facingRight ? Vector2.right : Vector2.left;
+
+        // Tính vị trí kiểm tra phía trước nhân vật
+        Vector2 checkPosition = (Vector2)transform.position + direction * checkDistance;
+
+        // Kiểm tra OverlapCircle
+        Collider2D hit = Physics2D.OverlapCircle(checkPosition, groundCheckRadius, groundLayer);
+
+        if (hit != null)
+        {
+            Debug.Log("Có Ground phía trước!");
+            animator.SetBool("isPushing", true);
+            animator.SetTrigger("push");
+        }
+        else
+        {
+            Debug.Log("Không có Ground phía trước!");
+            animator.SetBool("isPushing", false);
+        }
+
+        // Debug Circle để kiểm tra trong Scene
+        Debug.DrawLine(transform.position, checkPosition, Color.blue);
+        Debug.DrawRay(checkPosition, Vector3.up * groundCheckRadius, Color.cyan);
+
+    }
+
+
 }

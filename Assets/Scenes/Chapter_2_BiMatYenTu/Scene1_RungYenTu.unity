@@ -8800,6 +8800,7 @@ MonoBehaviour:
   BossTiger: {fileID: 1940202551}
   PointSetUpCamera: {fileID: 2144536020}
   TrucLam: {fileID: 1607845808}
+  trucLamController: {fileID: 0}
   minX: 0
   maxX: 108
   dialogueManager: {fileID: 451616430}
@@ -12817,7 +12818,7 @@ PrefabInstance:
     - target: {fileID: 994789026376004358, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: manaSystem
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2008102749}
     - target: {fileID: 1496306397535460028, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.07
@@ -20988,6 +20989,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1132570971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008102749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8596804361035489551, guid: e5d5324eec4cbf64f831bf054a04b077, type: 3}
+  m_PrefabInstance: {fileID: 1302611309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb34b80eb859e640815b60f8c35818a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2016819379
 GameObject:
   m_ObjectHideFlags: 0
