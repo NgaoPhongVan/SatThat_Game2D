@@ -71,7 +71,6 @@ public class TigerBossController : MonoBehaviour
         Flip();
         if (isActived)
         {
-            Phase2ForBoss();
             MoveToActivePoint();
 
 
@@ -253,13 +252,6 @@ public class TigerBossController : MonoBehaviour
         }
     }
 
-    private void Phase2ForBoss()
-    {
-        if(healthSystem.GetHealthPercentage() <= 50f)
-        {
-            isPhase2 = true;
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {
