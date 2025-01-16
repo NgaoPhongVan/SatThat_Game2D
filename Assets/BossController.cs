@@ -8,91 +8,91 @@ using Random = UnityEngine.Random;
 
 public class BossController : MonoBehaviour
 {
-    public Transform waypoint1; // Điểm di chuyển 1
-    public Transform waypoint2; // Điểm di chuyển 2
-    public float speed = 2f; // Tốc độ di chuyển
-    public float jumpSpeed = 15f; // Tốc độ nhảy
-    public float rollSpeed = 2f; // Tốc độ lăn
-    public Rigidbody2D rb; // Thành phần Rigidbody2D
-    public float attackRange = 5f; // Phạm vi tấn công
-    public Transform player; // Transform của người chơi
-    public float waitTime = 2f; // Thời gian chờ
+    public Transform waypoint1; 
+    public Transform waypoint2;
+    public float speed = 2f;
+    public float rollSpeed = 2f; 
+    public Rigidbody2D rb;
+    public float attackRange = 5f; 
+    public Transform player; 
+    public float waitTime = 2f; 
     public GameObject enemy;
-    private Transform currentWaypoint; // Điểm di chuyển hiện tại
-    private Animator animator; // Thành phần Animator
-    private bool isPatrolling = true; // Trạng thái tuần tra
-    private bool isAttacking = false; // Trạng thái tấn công
-    private bool isWaiting = false; // Trạng thái chờ
-    private Vector3 localScale; // Tỉ lệ cục bộ ban đầu
-    private string[] attacks = new string[] { "attack1", "attack2", "attack3" }; // Mảng các kiểu tấn công
-    private string currentAttack; // Kiểu tấn công hiện tại
-    public bool isDefending; // Trạng thái phòng thủ
-    private bool isHit; // Trạng thái bị đánh trúng
-    public float patrolRange = 10f; // Phạm vi tuần tra
-    private bool isJumping; // Trạng thái đang nhảy
-    private bool isDeath; // Trạng thái đã chết
-    private bool isSuperKill; // Trạng thái tấn công đặc biệt
+    private Transform currentWaypoint; 
+    private Animator animator; 
+    private bool isPatrolling = true; 
+    private bool isAttacking = false; 
+    private bool isWaiting = false;
+    private Vector3 localScale; 
+    private string[] attacks = new string[] { "attack1", "attack2", "attack3" }; 
+    private string currentAttack; 
+    public bool isDefending; 
+    private bool isHit; 
+    public float patrolRange = 10f; 
+    private bool isJumping; 
+    private bool isDeath; 
+    private bool isSuperKill; 
     private bool isGenerated;
+    private int jumpSpeed;
 
     void Start()
     {
-        currentWaypoint = waypoint1; // Đặt điểm di chuyển ban đầu là waypoint1
-        animator = GetComponent<Animator>(); // Lấy thành phần Animator
-        localScale = transform.localScale; // Lưu trữ tỉ lệ cục bộ ban đầu
-        rb = GetComponent<Rigidbody2D>(); // Lấy thành phần Rigidbody2D
+        currentWaypoint = waypoint1; 
+        animator = GetComponent<Animator>(); 
+        localScale = transform.localScale; 
+        rb = GetComponent<Rigidbody2D>(); 
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void FixedUpdate()
     {
-        if (isDeath) return; // Nếu đã chết thì không thực hiện gì
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position); // Tính khoảng cách đến người chơi
-        // Kiểm tra xem người chơi có nằm trong khu vực tuần tra (từ waypoint1 đến waypoint2)
+        if (isDeath) return; 
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position); 
+        
         if (IsPlayerWithinPatrolArea())
         {
             GenerateEnemies();
-            if (distanceToPlayer <= attackRange && !isHit && !isDefending) // Nếu người chơi trong phạm vi tấn công và không bị đánh trúng hoặc đang phòng thủ
+            if (distanceToPlayer <= attackRange && !isHit && !isDefending)  
             {
-                if (player.position.y > transform.position.y + 1.0f) // Nếu người chơi ở trên boss
+                if (player.position.y > transform.position.y + 1.0f) 
                 {
-                    animator.SetBool("IsMoving", false); // Dừng di chuyển
-                    if (!isJumping) // Nếu không đang nhảy
+                    animator.SetBool("IsMoving", false); 
+                    if (!isJumping) 
                     {
-                        StartCoroutine(JumpAndAttackPlayer()); // Bắt đầu coroutine nhảy và tấn công
+                        StartCoroutine(JumpAndAttackPlayer()); 
                     }
                 }
                 else
                 {
-                    animator.SetBool("IsMoving", false); // Dừng di chuyển
-                    if (!isAttacking && !isDeath) // Nếu không đang tấn công và chưa chết
+                    animator.SetBool("IsMoving", false); 
+                    if (!isAttacking && !isDeath) 
                     {
-                        StartCoroutine(AttackPlayer()); // Bắt đầu coroutine tấn công
+                        StartCoroutine(AttackPlayer()); 
                     }
                 }
             }
-            else if (distanceToPlayer > 2 * attackRange) // Nếu người chơi quá xa
+            else if (distanceToPlayer > 2 * attackRange) 
             {
-                RollToPlayer(); // Lăn về phía người chơi
+                RollToPlayer(); 
             }
             else
             {
-                var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // Lấy thông tin trạng thái của animator
-                if (stateInfo.IsName("roll") && stateInfo.normalizedTime < 1.0f) // Nếu đang lăn và chưa kết thúc animation
+                var stateInfo = animator.GetCurrentAnimatorStateInfo(0); 
+                if (stateInfo.IsName("roll") && stateInfo.normalizedTime < 1.0f) 
                 {
-                    return; // Không làm gì
+                    return; 
                 }
-                if (isJumping) return; // Nếu đang nhảy thì không làm gì
-                MoveTowardsPlayer(); // Di chuyển về phía người chơi
+                if (isJumping) return; 
+                MoveTowardsPlayer(); 
             }
         }
         else if (isAttacking)
-        { // Dừng tấn công nếu người chơi rời khỏi khu vực
+        { 
             isAttacking = false;
             animator.ResetTrigger(currentAttack);
         }
         else
         {
-            animator.SetBool("IsMoving", false); // Dừng di chuyển
+            animator.SetBool("IsMoving", false); 
         }
     }
 
@@ -122,95 +122,95 @@ public class BossController : MonoBehaviour
 
     void RollToPlayer()
     {
-        if (isDeath) return; // Nếu đã chết thì không thực hiện gì
-        StopCoroutine(Roll()); // Dừng coroutine lăn hiện tại
-        StartCoroutine(Roll()); // Bắt đầu coroutine lăn
+        if (isDeath) return; 
+        StopCoroutine(Roll()); 
+        StartCoroutine(Roll()); 
     }
 
     IEnumerator Roll()
     {
-        animator.SetBool("IsMoving", false); // Dừng di chuyển
-        animator.SetTrigger("roll"); // Kích hoạt animation lăn
-        Vector3 targetPosition = player.position + (transform.position - player.position).normalized * attackRange; // Tính vị trí mục tiêu để lăn đến
-        while (Vector3.Distance(transform.position, targetPosition) > attackRange) // Lặp cho đến khi đến gần mục tiêu
+        animator.SetBool("IsMoving", false); 
+        animator.SetTrigger("roll");
+        Vector3 targetPosition = player.position + (transform.position - player.position).normalized * attackRange; 
+        while (Vector3.Distance(transform.position, targetPosition) > attackRange) 
         {
-            Vector3 direction = (targetPosition - transform.position).normalized; // Tính hướng di chuyển
-            transform.position += direction * rollSpeed * Time.deltaTime; // Di chuyển theo hướng
-            if (direction.x > 0) // Nếu di chuyển sang phải
+            Vector3 direction = (targetPosition - transform.position).normalized; 
+            transform.position += direction * rollSpeed * Time.deltaTime; 
+            if (direction.x > 0) 
             {
-                transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z); // Lật mặt sang phải
+                transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z); 
             }
-            else if (direction.x < 0) // Nếu di chuyển sang trái
+            else if (direction.x < 0) 
             {
-                transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z); // Lật mặt sang trái
+                transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z); 
             }
-            yield return null; // Chờ frame tiếp theo
+            yield return null; 
         }
-        if (Vector3.Distance(transform.position, player.position) <= attackRange) // Nếu đến gần người chơi
+        if (Vector3.Distance(transform.position, player.position) <= attackRange) 
         {
-            StartCoroutine(AttackPlayer()); // Bắt đầu tấn công
+            StartCoroutine(AttackPlayer()); 
         }
     }
 
     bool IsPlayerWithinPatrolArea()
-    { // Kiểm tra xem người chơi có nằm trong phạm vi ngang của waypoint1 và waypoint2
+    { 
         return player.position.x >= waypoint1.position.x && player.position.x <= waypoint2.position.x;
     }
     void MoveTowardsPlayer()
     {
-        if (isDeath) return; // Nếu đã chết thì không thực hiện gì
-        if (Vector3.Distance(transform.position, player.position) > attackRange - 1) // Nếu người chơi ở ngoài phạm vi tấn công
+        if (isDeath) return; 
+        if (Vector3.Distance(transform.position, player.position) > attackRange - 1) 
         {
-            Vector3 direction = player.position - transform.position; // Tính hướng di chuyển
-            transform.position += direction.normalized * speed * Time.deltaTime; // Di chuyển về phía người chơi
-            Flip(); // Lật mặt theo hướng di chuyển
-            animator.SetBool("IsMoving", true); // Bật animation di chuyển
+            Vector3 direction = player.position - transform.position; 
+            transform.position += direction.normalized * speed * Time.deltaTime; 
+            Flip(); 
+            animator.SetBool("IsMoving", true); 
         }
         else
         {
-            animator.SetBool("IsMoving", false); // Tắt animation di chuyển
+            animator.SetBool("IsMoving", false); 
         }
     }
     IEnumerator AttackPlayer()
     {
-        if (isDeath) yield return null; // Nếu đã chết thì không thực hiện gì
+        if (isDeath) yield return null; 
         if(!player.GetComponent<PlayerMovement>().CanTakeDamage())
         {
           yield break;
         }
-        isPatrolling = false; // Dừng tuần tra
-        isAttacking = true; // Bắt đầu tấn công
-        animator.SetBool("IsMoving", false); // Dừng di chuyển
+        isPatrolling = false; 
+        isAttacking = true; 
+        animator.SetBool("IsMoving", false); 
         var playerHealth = player.GetComponent<HealthSystem>();
         if(playerHealth.currentHealth <= 50)
         {
             isSuperKill = true;
         }
-        while (Vector3.Distance(transform.position, player.position) <= attackRange) // Lặp khi người chơi trong phạm vi tấn công
+        while (Vector3.Distance(transform.position, player.position) <= attackRange)
         {
-            if (!isDefending && !isHit && !isJumping && !isDeath) // Nếu không đang phòng thủ, bị đánh, nhảy hoặc chết
+            if (!isDefending && !isHit && !isJumping && !isDeath) 
             {
-                Flip(); // Lật mặt về phía người chơi
-                var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // Lấy thông tin trạng thái animator
-                if (stateInfo.IsName("sup_attack") && stateInfo.normalizedTime < 1.0f) // Nếu đang thực hiện animation tấn công đặc biệt
+                Flip(); 
+                var stateInfo = animator.GetCurrentAnimatorStateInfo(0); 
+                if (stateInfo.IsName("sup_attack") && stateInfo.normalizedTime < 1.0f) 
                 {
-                    yield return null; // Chờ frame tiếp theo
-                    continue; // Tiếp tục vòng lặp
+                    yield return null; 
+                    continue;
                 }
-                if (stateInfo.IsName(currentAttack) && stateInfo.normalizedTime < 1.0f) // Nếu đang thực hiện animation tấn công hiện tại
+                if (stateInfo.IsName(currentAttack) && stateInfo.normalizedTime < 1.0f) 
                 {
-                    yield return null; // Chờ frame tiếp theo
-                    continue; // Tiếp tục vòng lặp
+                    yield return null; 
+                    continue; 
                 }
-                if (stateInfo.IsName("hit") && stateInfo.normalizedTime < 1.0f) // Nếu đang bị nhân vật chính tấn công
+                if (stateInfo.IsName("hit") && stateInfo.normalizedTime < 1.0f) 
 	            {
-                    yield return null; // Chờ frame tiếp theo
-                    continue; // Tiếp tục vòng lặp
+                    yield return null; 
+                    continue; 
                 }
-                if (stateInfo.IsName("defend") && stateInfo.normalizedTime < 1.0f) // Nếu đang trong trạng thái phòng thủ
+                if (stateInfo.IsName("defend") && stateInfo.normalizedTime < 1.0f) 
                 {
-                    yield return null; // Chờ frame tiếp theo
-                    continue; // Tiếp tục vòng lặp
+                    yield return null; 
+                    continue; 
                 }
                 if (playerHealth.currentHealth <= 50)
                 {
@@ -218,20 +218,20 @@ public class BossController : MonoBehaviour
                     OnSupperAttack();
                     yield break;
                 }
-                currentAttack = RandomAttack(); // Chọn ngẫu nhiên một kiểu tấn công
-                animator.SetTrigger(currentAttack); // Kích hoạt animation tấn công
-                Debug.Log("Attacking the player!"); // In thông báo tấn công
-                yield return new WaitForSeconds(0.5f); // Chờ 1 giây giữa các lần tấn công
+                currentAttack = RandomAttack(); 
+                animator.SetTrigger(currentAttack); 
+                Debug.Log("Attacking the player!"); 
+                yield return new WaitForSeconds(0.5f); 
 
                 player.GetComponent<HealthSystem>().TakeDamage(SetDamageAttack(currentAttack));
             }
             else
             {
-                break; // Thoát khỏi vòng lặp nếu người chơi ra khỏi phạm vi tấn công
+                break; 
             }
-            yield return null; // Chờ frame tiếp theo
+            yield return null; 
         }
-        isAttacking = false; // Kết thúc tấn công
+        isAttacking = false; 
     }
 
     private float SetDamageAttack(string currentAttack)
@@ -247,75 +247,75 @@ public class BossController : MonoBehaviour
 
     private IEnumerator OnEndLastHit()
     {
-        yield return new WaitForSeconds(1.5f); // Chờ 1.5 giây
-        animator.ResetTrigger("supper_attack"); // Reset trigger tấn công đặc biệt
-        isSuperKill = false; // Đặt trạng thái tấn công đặc biệt về false
+        yield return new WaitForSeconds(1.5f); 
+        animator.ResetTrigger("supper_attack"); 
+        isSuperKill = false; 
         player.GetComponent<HealthSystem>().TakeDamage(50);
 
     }
 
     private void Flip()
     {
-        Vector3 direction = player.position - transform.position; // Tính hướng giữa boss và người chơi
-        if (direction.x > 0) // Nếu người chơi ở bên phải boss
+        Vector3 direction = player.position - transform.position; 
+        if (direction.x > 0) 
         {
-            transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z); // Lật mặt boss sang phải
-            // Face right
+            transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z);
+            
         }
-        else if (direction.x < 0) // Nếu người chơi ở bên trái boss
+        else if (direction.x < 0) 
         {
-            transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z); // Lật mặt boss sang trái
-            // Face left
+            transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z); 
+            
         }
     }
     void Defend()
     {
-        isDefending = true; // Bắt đầu phòng thủ
-        animator.SetTrigger("defend"); // Kích hoạt animation phòng thủ
-        Debug.Log("Defending!"); // In thông báo phòng thủ
-        StopCoroutine(EndDefend()); // Dừng coroutine EndDefend hiện tại (để tránh xung đột)
-        StartCoroutine(EndDefend()); // Bắt đầu coroutine EndDefend
+        isDefending = true; 
+        animator.SetTrigger("defend"); 
+        Debug.Log("Defending!"); 
+        StopCoroutine(EndDefend()); 
+        StartCoroutine(EndDefend()); 
     }
     IEnumerator EndDefend()
     {
-        yield return new WaitForSeconds(2f); // Chờ 2 giây
-        isDefending = false; // Kết thúc phòng thủ
+        yield return new WaitForSeconds(2f);
+        isDefending = false; 
     }
     public void OnHit()
     {
-        if (isDeath) return; // Nếu đã chết thì không thực hiện gì
-        animator.ResetTrigger(currentAttack); // Reset trigger tấn công hiện tại
-        if (Random.value < 0.1f) // 10% cơ hội phòng thủ khi bị tấn công
+        if (isDeath) return; 
+        animator.ResetTrigger(currentAttack); 
+        if (Random.value < 0.1f) 
         {
-            var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // Lấy thông tin trạng thái animator
-            if (stateInfo.IsName("hit") && stateInfo.normalizedTime < 1.0f) // Nếu đang trong animation bị đánh
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0); 
+            if (stateInfo.IsName("hit") && stateInfo.normalizedTime < 1.0f) 
             {
-                return; // Không làm gì
+                return; 
             }
-            Defend(); // Phòng thủ
+            Defend(); 
         }
         else
         {
-            var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // Lấy thông tin trạng thái animator
-            if (stateInfo.IsName("defend") && stateInfo.normalizedTime < 1.0f) // Nếu đang trong animation phòng thủ
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0); 
+            if (stateInfo.IsName("defend") && stateInfo.normalizedTime < 1.0f) 
             {
-                return; // Không làm gì
+                return;
             }
-            isHit = true; // Đặt trạng thái bị đánh
-            StopCoroutine(AttackPlayer()); // Dừng coroutine tấn công
-            isAttacking = false; // Dừng tấn công
-            animator.SetBool("IsMoving", false); // Dừng di chuyển
-            animator.SetTrigger("hit"); // Kích hoạt animation bị đánh
-            StopCoroutine(RecoverFromHit()); // Dừng coroutine RecoverFromHit hiện tại (để tránh xung đột)
-            StartCoroutine(RecoverFromHit()); // Bắt đầu coroutine RecoverFromHit
+            isHit = true; 
+            StopCoroutine(AttackPlayer()); 
+            isAttacking = false;
+            animator.SetBool("IsMoving", false);
+            animator.SetTrigger("hit"); 
+            StopCoroutine(RecoverFromHit()); 
+            StartCoroutine(RecoverFromHit()); 
         }
     }
 
     public void OnDeath()
     {
         if (isDeath) return;
-        isDeath = true; // Đặt trạng thái đã chết
-        animator.SetTrigger("death"); // Kích hoạt animation chết
+        isDeath = true; 
+        animator.SetTrigger("death");
         StartCoroutine(OnEndDeath());
     }
     private IEnumerator OnEndDeath()
@@ -324,69 +324,66 @@ public class BossController : MonoBehaviour
         {
             Destroy(enemy);
         }
-        yield return new WaitForSeconds(2f); // Chờ 2 giây
-        SceneManager.LoadScene(0); // Load
+        yield return new WaitForSeconds(2f); 
+        SceneManager.LoadScene(0); 
     }
 
     IEnumerator RecoverFromHit()
     {
-        yield return new WaitForSeconds(2f); // Chờ 2 giây
-        isHit = false; // Hồi phục sau khi bị đánh
-        animator.ResetTrigger("hit"); // Reset trigger bị đánh
+        yield return new WaitForSeconds(2f); 
+        isHit = false; 
+        animator.ResetTrigger("hit"); 
     }
 
     public void OnSupperAttack()
     {
-        if (isDeath) return; // Nếu đã chết thì không thực hiện gì
-        isSuperKill = true; // Bật trạng thái tấn công đặc biệt
-        animator.SetTrigger("supper_attack"); // Kích hoạt animation tấn công đặc biệt
+        if (isDeath) return;
+        isSuperKill = true; 
+        animator.SetTrigger("supper_attack");
         StartCoroutine(OnEndLastHit());
     }
 
     private string RandomAttack()
     {
-        return attacks[Random.Range(0, attacks.Length)]; // Trả về một kiểu tấn công ngẫu nhiên từ mảng attacks
+        return attacks[Random.Range(0, attacks.Length)];
     }
 
     IEnumerator JumpAndAttackPlayer()
     {
 
-        isJumping = true; // Đặt trạng thái đang nhảy
-        animator.SetTrigger("jump"); // Kích hoạt animation nhảy
-        // Play jump animation 
-        // Calculate the force needed to reach the player's height
-        float jumpForce = Mathf.Sqrt(2 * jumpSpeed * (player.position.y - transform.position.y)); // Tính toán lực nhảy cần thiết
-        rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); // Thêm lực nhảy theo phương thẳng đứng
-        // Add vertical force to jump 
-        // Wait until boss reaches the height of the
-        while (rb.velocity.y > 0) { yield return null; } // Chờ đến khi boss đạt đến đỉnh của cú nhảy
-        // While player is in the air, stay and attack
-        // Wait until boss reaches the height of the player
-        while (transform.position.y < player.position.y && rb.velocity.y > 0) { yield return null; } // Chờ đến khi boss đạt độ cao của người chơi
+        isJumping = true; 
+        animator.SetTrigger("jump"); 
+        
+        float jumpForce = Mathf.Sqrt(2 * jumpSpeed * (player.position.y - transform.position.y)); 
+        rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse); 
+        
+       
+        while (rb.velocity.y > 0) { yield return null; } 
+       
+        while (transform.position.y < player.position.y && rb.velocity.y > 0) { yield return null; } 
 
-        rb.simulated = false; // Tắt mô phỏng vật lý để boss "treo" trên không
-        while (player.position.y > transform.position.y - 1.0f) // Lặp khi người chơi vẫn ở trên boss
+        rb.simulated = false; 
+        while (player.position.y > transform.position.y - 1.0f) 
         {
-            Flip(); // Lật mặt về phía người chơi
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position); // Tính khoảng cách đến người chơi
-            if (distanceToPlayer > attackRange || player.position.y <= transform.position.y) // Nếu người chơi ra khỏi phạm vi tấn công hoặc xuống dưới boss
+            Flip(); 
+                float distanceToPlayer = Vector3.Distance(transform.position, player.position); 
+            if (distanceToPlayer > attackRange || player.position.y <= transform.position.y) 
             {
-                break; // Thoát khỏi vòng lặp
+                break; 
             }
-            animator.SetTrigger("air_attack"); // Kích hoạt animation tấn công trên không
-            // Play air attack animation
-            Debug.Log("Air Attacking the player!"); // In thông báo tấn công trên không
-            yield return new WaitForSeconds(1f); // Chờ 1 giây
-        } // Jump down when player starts to fall
-        rb.simulated = true; // Bật lại mô phỏng vật lý
-        animator.SetBool("IsMoving", false); // Dừng di chuyển
-        animator.SetTrigger("jumpdown"); // Kích hoạt animation nhảy xuống
+            animator.SetTrigger("air_attack"); 
+          
+            Debug.Log("Air Attacking the player!"); 
+            yield return new WaitForSeconds(1f); 
+        } 
+        rb.simulated = true; 
+        animator.SetBool("IsMoving", false); 
+        animator.SetTrigger("jumpdown");
 
 
-        rb.AddForce(new Vector2(0, -jumpForce), ForceMode2D.Impulse); // Thêm lực để nhảy xuống
-        // Add force to jump down 
-        // Wait until boss lands
-        while (rb.velocity.y < 0) { yield return null; } // Chờ đến khi boss chạm đất
-        isJumping = false; // Kết thúc trạng thái nhảy
+        rb.AddForce(new Vector2(0, -jumpForce), ForceMode2D.Impulse); 
+        
+        while (rb.velocity.y < 0) { yield return null; } 
+        isJumping = false; 
        }
 }
