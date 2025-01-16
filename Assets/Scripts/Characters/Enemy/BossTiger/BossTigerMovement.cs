@@ -33,7 +33,7 @@ public class TigerBossController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+
 
 
         // Kiểm tra xem player hoặc activePoint có bị thiếu hay không
